@@ -31,8 +31,8 @@ while operation != '-1':
     print_main_menu()
     operation = input()
     if operation == '0':
-        playlist_operator.list_user_playlists()
+        print(playlist_operator.list_user_playlists())
     if operation == '1':
         print('Please, type a valid playlist URL:')
         playlist_id = input()
-        playlist_operator.reorder_playlist(playlist_id)
+        print(playlist_operator.reorder_playlist(playlist_id))
