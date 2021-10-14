@@ -15,6 +15,7 @@ sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=Credentials.SPOTIFY_CLI
 
 playlist_operator = PlaylistOperator(sp)
 
+
 operation = '0'
 
 
@@ -35,4 +36,5 @@ while operation != '-1':
     if operation == '1':
         print('Please, type a valid playlist URL:')
         playlist_id = input()
-        print(playlist_operator.reorder_playlist(playlist_id))
+        playlist_operator.reorder_playlist_by_release_date(playlist_id)
+        print('Playlist was ordered successfully')
