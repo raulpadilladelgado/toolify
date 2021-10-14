@@ -8,7 +8,7 @@ def build_pretty_playlists_list(results):
 def build_pretty_items_list(items):
     tracks = dict()
     for i in range(len(items)):
-        tracks[items['items'][i]['track']['id']] = items['items'][i]['track']['album']['release_date']
+        tracks[items[i]['track']['id']] = items[i]['track']['album']['release_date']
     return tracks
 
 
@@ -22,4 +22,4 @@ class PlaylistOperator:
 
     def reorder_playlist(self, playlist_id):
         items = self.spotipy.playlist_items(playlist_id, 'items', 1)
-        return build_pretty_items_list(items)
+        return build_pretty_items_list(items['items'])

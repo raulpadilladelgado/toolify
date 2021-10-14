@@ -32,7 +32,15 @@ class PlaylistOperatorTest(unittest.TestCase):
                         'album': {
                             'release_date': 'RELEASE_DATE'
                         },
-                        'id': 'PLAYLIST_ID'
+                        'id': 'SONG_ID'
+                    }
+                },
+                {
+                    'track': {
+                        'album': {
+                            'release_date': 'RELEASE_DATE_2'
+                        },
+                        'id': 'SONG_ID_2'
                     }
                 }
             ]
@@ -41,7 +49,8 @@ class PlaylistOperatorTest(unittest.TestCase):
         spotipy_mock.playlist_items = Mock(return_value=spotipy_mock_returned_value)
         playlist_operator = PlaylistOperator(spotipy_mock)
 
-        user_playlists = playlist_operator.reorder_playlist('Playlist ID')
+        user_playlists = playlist_operator.reorder_playlist('PLAYLIST_ID')
 
-        expected_result = {'PLAYLIST_ID': 'RELEASE_DATE'}
+        expected_result = {'SONG_ID': 'RELEASE_DATE',
+                           'SONG_ID_2': 'RELEASE_DATE_2'}
         self.assertEqual(user_playlists, expected_result)
