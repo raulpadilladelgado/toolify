@@ -10,8 +10,8 @@ class MyTestCase(unittest.TestCase):
         spotipy_mock_returned_value = {
             'items': [
                 {
-                    'id': '37i9dQZEVXcWTsLEWE5BJV',
-                    'name': 'Discover Weekly'
+                    'id': 'PLAYLIST_ID',
+                    'name': 'PLAYLIST_NAME'
                 }
             ]
         }
@@ -21,7 +21,7 @@ class MyTestCase(unittest.TestCase):
 
         user_playlists = playlist_operator.list_user_playlists()
 
-        expected_result = 'Discover Weekly - 37i9dQZEVXcWTsLEWE5BJV\n'
+        expected_result = 'PLAYLIST_NAME - PLAYLIST_ID\n'
         self.assertEqual(user_playlists, expected_result)
 
     def test_reorder_playlists(self):
@@ -29,7 +29,10 @@ class MyTestCase(unittest.TestCase):
             'items': [
                 {
                     'track': {
-                        'album': {'release_date': '2021-09-30'}, 'id': '493Rk3iS7rs8uPfpnfm95u'
+                        'album': {
+                            'release_date': 'RELEASE_DATE'
+                        },
+                        'id': 'PLAYLIST_ID'
                     }
                 }
             ]
@@ -40,5 +43,5 @@ class MyTestCase(unittest.TestCase):
 
         user_playlists = playlist_operator.reorder_playlist('Playlist ID')
 
-        expected_result = {'493Rk3iS7rs8uPfpnfm95u': '2021-09-30'}
+        expected_result = {'PLAYLIST_ID': 'RELEASE_DATE'}
         self.assertEqual(user_playlists, expected_result)
