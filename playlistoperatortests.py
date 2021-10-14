@@ -9,8 +9,12 @@ class MyTestCase(unittest.TestCase):
     def test_show_playlists(self):
         spotipy_mock_returned_value = {
             'items': [
-                {'id': '37i9dQZEVXcWTsLEWE5BJV',
-                 'name': 'Discover Weekly'}]}
+                {
+                    'id': '37i9dQZEVXcWTsLEWE5BJV',
+                    'name': 'Discover Weekly'
+                }
+            ]
+        }
         spotipy_mock = spotipy
         spotipy_mock.current_user_playlists = Mock(return_value=spotipy_mock_returned_value)
         playlist_operator = PlaylistOperator(spotipy_mock)
@@ -21,10 +25,15 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(user_playlists, expected_result)
 
     def test_reorder_playlists(self):
-        # tracks[items['items'][i]['track']['id']] = items['items'][i]['track']['album']['release_date']
         spotipy_mock_returned_value = {
-            'items': [{'track': {
-                'album': {'release_date': '2021-09-30'}, 'id': '493Rk3iS7rs8uPfpnfm95u'}}]}
+            'items': [
+                {
+                    'track': {
+                        'album': {'release_date': '2021-09-30'}, 'id': '493Rk3iS7rs8uPfpnfm95u'
+                    }
+                }
+            ]
+        }
         spotipy_mock = spotipy
         spotipy_mock.playlist_items = Mock(return_value=spotipy_mock_returned_value)
         playlist_operator = PlaylistOperator(spotipy_mock)
