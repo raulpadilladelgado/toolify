@@ -8,7 +8,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_show_playlists(self):
         spotipy_mock_returned_value = {
-            'href': 'https://api.spotify.com/v1/users/11172067860/playlists?offset=0&limit=1', 'items': [
+            'items': [
                 {'id': '37i9dQZEVXcWTsLEWE5BJV',
                  'name': 'Discover Weekly'}]}
         spotipy_mock = spotipy
