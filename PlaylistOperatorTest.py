@@ -1,10 +1,10 @@
 import unittest
-from playlistoperator import PlaylistOperator
+from PlaylistOperator import PlaylistOperator
 from unittest.mock import Mock
 import spotipy
 
 
-class MyTestCase(unittest.TestCase):
+class PlaylistOperatorTest(unittest.TestCase):
 
     def test_show_playlists(self):
         spotipy_mock_returned_value = {

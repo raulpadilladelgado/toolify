@@ -1,7 +1,7 @@
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
-from credentials import Credentials
-from playlistoperator import PlaylistOperator
+from Credentials import Credentials
+from PlaylistOperator import PlaylistOperator
 
 scopes = ["playlist-modify-private",
           "playlist-read-private",
