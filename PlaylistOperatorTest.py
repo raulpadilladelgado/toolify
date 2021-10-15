@@ -1,7 +1,6 @@
 import unittest
 from PlaylistOperator import PlaylistOperator, reorder_song_ids, split_songs_list_by_chunks
 from unittest.mock import Mock
-import spotipy
 import json
 
 FAKE_SONG_ID_TREE = 'SONG_ID_E'
@@ -18,7 +17,7 @@ FAKE_PLAYLIST_ID = 'PLAYLIST_ID'
 class PlaylistOperatorTest(unittest.TestCase):
 
     def test_show_playlists(self):
-        spotipy_mock_returned_value = {
+        fake_playlists_list = {
             'items': [
                 {
                     'id': FAKE_PLAYLIST_ID,
@@ -26,8 +25,8 @@ class PlaylistOperatorTest(unittest.TestCase):
                 }
             ]
         }
-        spotipy_mock = spotipy
-        spotipy_mock.current_user_playlists = Mock(return_value=spotipy_mock_returned_value)
+        spotipy_mock = Mock()
+        spotipy_mock.current_user_playlists = Mock(return_value=fake_playlists_list)
         playlist_operator = PlaylistOperator(spotipy_mock)
 
         user_playlists = playlist_operator.list_user_playlists()
@@ -88,29 +87,31 @@ class PlaylistOperatorTest(unittest.TestCase):
 
     def test_get_more_than_100_song_with_one_request(self):
         total_tracks_in_playlist = 200
-        spotipy_mock_returned_value = {
+        fake_tracks_info = {
             'tracks':
                 {
                     'total': total_tracks_in_playlist
                 }
         }
-        spotipy_mock_returned_value_2 = {
+        fake_playlist_items = {
             'items': [
 
             ]
         }
-        for i in range(100):
-            spotipy_mock_returned_value_2['items'].append({
-                'id': FAKE_PLAYLIST_ID,
-                'name': FAKE_PLAYLIST_NAME
-            })
-
+        self.populateFakePlaylistItemsList(fake_playlist_items)
         spotipy_mock = Mock()
-        spotipy_mock.playlist = Mock(return_value=spotipy_mock_returned_value)
-        spotipy_mock.playlist_items = Mock(return_value=spotipy_mock_returned_value_2)
+        spotipy_mock.playlist = Mock(return_value=fake_tracks_info)
+        spotipy_mock.playlist_items = Mock(return_value=fake_playlist_items)
+        spotipy_mock.playlist_items = Mock(return_value=fake_playlist_items)
         playlist_operator = PlaylistOperator(spotipy_mock)
-        spotipy_mock.playlist_items = Mock(return_value=spotipy_mock_returned_value_2)
 
         items = playlist_operator.getPlaylistItems(FAKE_PLAYLIST_ID)
 
         self.assertEqual(total_tracks_in_playlist, len(items))
+
+    def populateFakePlaylistItemsList(self, fake_playlist_items):
+        for i in range(100):
+            fake_playlist_items['items'].append({
+                'id': FAKE_PLAYLIST_ID,
+                'name': FAKE_PLAYLIST_NAME
+            })
