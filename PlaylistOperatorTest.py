@@ -1,5 +1,5 @@
 import unittest
-from PlaylistOperator import PlaylistOperator
+from PlaylistOperator import PlaylistOperator, reorder_song_ids
 from unittest.mock import Mock
 import spotipy
 import json
@@ -36,7 +36,7 @@ class PlaylistOperatorTest(unittest.TestCase):
         self.assertEqual(expected_result, user_playlists)
 
     def test_reorder_playlists(self):
-        spotipy_mock_returned_value = {
+        items = {
             'items': [
                 {
                     'track': {
@@ -64,20 +64,8 @@ class PlaylistOperatorTest(unittest.TestCase):
                 }
             ]
         }
-        spotipy_mock_returned_value_2 = {
-            'tracks': {
-                'total': 3
-            }
-        }
-        spotipy_mock = spotipy
-        spotipy_mock.playlist_items = Mock(return_value=spotipy_mock_returned_value)
-        spotipy_mock.playlist = Mock(return_value=spotipy_mock_returned_value_2)
-        spotipy_mock.playlist_replace_items = Mock()
-        playlist_operator = PlaylistOperator(spotipy_mock)
 
-        user_playlists = playlist_operator.reorder_playlist_by_release_date('PLAYLIST_ID')
+        user_playlists = reorder_song_ids(items['items'])
 
-        expected_result = '{\"SONG_ID_Z\": \"2021-10-14\", ' \
-                          '\"SONG_ID_D\": \"2021-10-11\", ' \
-                          '\"SONG_ID_E\": \"2021-10-10\"}'
-        self.assertEqual(expected_result, json.dumps(user_playlists))
+        expected_result = [FAKE_SONG_ID_ONE, FAKE_SONG_ID_TWO, FAKE_SONG_ID_TREE]
+        self.assertEqual(json.dumps(expected_result), json.dumps(user_playlists))
