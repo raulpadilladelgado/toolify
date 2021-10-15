@@ -85,3 +85,32 @@ class PlaylistOperatorTest(unittest.TestCase):
             [FAKE_SONG_ID_ONE, FAKE_SONG_ID_ONE]
         ]
         self.assertEqual(expected_result, splited_song_list)
+
+    def test_get_more_than_100_song_with_one_request(self):
+        total_tracks_in_playlist = 200
+        spotipy_mock_returned_value = {
+            'tracks':
+                {
+                    'total': total_tracks_in_playlist
+                }
+        }
+        spotipy_mock_returned_value_2 = {
+            'items': [
+
+            ]
+        }
+        for i in range(100):
+            spotipy_mock_returned_value_2['items'].append({
+                'id': FAKE_PLAYLIST_ID,
+                'name': FAKE_PLAYLIST_NAME
+            })
+
+        spotipy_mock = Mock()
+        spotipy_mock.playlist = Mock(return_value=spotipy_mock_returned_value)
+        spotipy_mock.playlist_items = Mock(return_value=spotipy_mock_returned_value_2)
+        playlist_operator = PlaylistOperator(spotipy_mock)
+        spotipy_mock.playlist_items = Mock(return_value=spotipy_mock_returned_value_2)
+
+        items = playlist_operator.getPlaylistItems(FAKE_PLAYLIST_ID)
+
+        self.assertEqual(total_tracks_in_playlist, len(items))
