@@ -22,8 +22,8 @@ def reorder_song_ids(items):
     return list(reordered_songs.keys())
 
 
-def split_songs_list_by_chunks_of_100(song_ids):
-    return [song_ids[x:x + 100] for x in range(0, len(song_ids), 100)]
+def split_songs_list_by_chunks(song_ids, chunk_size):
+    return [song_ids[x:x + chunk_size] for x in range(0, len(song_ids), chunk_size)]
 
 
 class PlaylistOperator:
@@ -58,6 +58,6 @@ class PlaylistOperator:
         self.spotipy.playlist_replace_items(playlist_id, [])
 
     def add_items_to_playlist_by_chunks_of_100(self, playlist_id, song_ids):
-        chunks = split_songs_list_by_chunks_of_100(song_ids)
+        chunks = split_songs_list_by_chunks(song_ids, 100)
         for i in range(len(chunks)):
             self.spotipy.playlist_add_items(playlist_id, chunks[i])

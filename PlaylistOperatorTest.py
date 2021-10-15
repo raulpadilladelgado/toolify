@@ -1,5 +1,5 @@
 import unittest
-from PlaylistOperator import PlaylistOperator, reorder_song_ids
+from PlaylistOperator import PlaylistOperator, reorder_song_ids, split_songs_list_by_chunks
 from unittest.mock import Mock
 import spotipy
 import json
@@ -69,3 +69,19 @@ class PlaylistOperatorTest(unittest.TestCase):
 
         expected_result = [FAKE_SONG_ID_ONE, FAKE_SONG_ID_TWO, FAKE_SONG_ID_TREE]
         self.assertEqual(json.dumps(expected_result), json.dumps(user_playlists))
+
+    def test_split_songs_list_by_chunks(self):
+        songs_list = []
+        for i in range(10):
+            songs_list.append(FAKE_SONG_ID_ONE)
+
+        splited_song_list = split_songs_list_by_chunks(songs_list, 2)
+
+        expected_result = [
+            [FAKE_SONG_ID_ONE, FAKE_SONG_ID_ONE],
+            [FAKE_SONG_ID_ONE, FAKE_SONG_ID_ONE],
+            [FAKE_SONG_ID_ONE, FAKE_SONG_ID_ONE],
+            [FAKE_SONG_ID_ONE, FAKE_SONG_ID_ONE],
+            [FAKE_SONG_ID_ONE, FAKE_SONG_ID_ONE]
+        ]
+        self.assertEqual(expected_result, splited_song_list)
