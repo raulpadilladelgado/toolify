@@ -4,9 +4,9 @@ import re
 
 
 def build_pretty_playlists_list(results):
-    final_result = ''
+    final_result = {}
     for ixd, item in enumerate(results['items']):
-        final_result += item['name'] + " - " + item['id'] + '\n'
+        final_result[item['name']] = item['id']
     return final_result
 
 

@@ -31,7 +31,7 @@ class PlaylistOperatorTest(unittest.TestCase):
 
         user_playlists = playlist_operator.list_user_playlists()
 
-        expected_result = f'{FAKE_PLAYLIST_NAME} - {FAKE_PLAYLIST_ID}\n'
+        expected_result = {FAKE_PLAYLIST_NAME: FAKE_PLAYLIST_ID}
         self.assertEqual(expected_result, user_playlists)
 
     def test_reorder_playlists(self):

@@ -1,5 +1,5 @@
 import spotipy
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from spotipy.oauth2 import SpotifyOAuth
 
 from Credentials import Credentials
@@ -20,7 +20,19 @@ sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=Credentials.SPOTIFY_CLI
 playlist_operator = PlaylistOperator(sp)
 
 
-@app.route("/list")
+@app.route("/")
 def list_playlists():
     user_playlists = playlist_operator.list_user_playlists()
-    return render_template("index.html", aguacate=user_playlists)
+    return render_template(
+        "index.html",
+        playlists=user_playlists
+    )
+
+@app.route('/order', methods=['POST'])
+def order_playlists():
+    playlist_operator.reorder_playlist_by_release_date(request.form['playlist'])
+    user_playlists = playlist_operator.list_user_playlists()
+    return render_template(
+        "index.html",
+        playlists=user_playlists
+    )
