@@ -2,6 +2,7 @@
 1. Install SpotyPy
 ```shell
 pip install spotipy
+pip install flask
 ```
 2. Create your own credentials file (`credentials.py`)
 ```Python
