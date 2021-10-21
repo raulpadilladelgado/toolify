@@ -1,5 +1,5 @@
 import unittest
-from PlaylistOperator import PlaylistOperator, reorder_song_ids, split_songs_list_by_chunks
+from application.PlaylistOperator import PlaylistOperator, reorder_song_ids, split_songs_list_by_chunks
 from unittest.mock import Mock
 import json
 

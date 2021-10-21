@@ -1,4 +1,4 @@
 .idea
 toolify.iml
 .cache
-Credentials.py
+config/Credentials.py

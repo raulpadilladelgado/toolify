@@ -2,8 +2,8 @@ import spotipy
 from flask import Flask, render_template, request
 from spotipy.oauth2 import SpotifyOAuth
 
-from Credentials import Credentials
-from PlaylistOperator import PlaylistOperator
+from config.Credentials import Credentials
+from application.PlaylistOperator import PlaylistOperator
 
 app = Flask(__name__)
 
