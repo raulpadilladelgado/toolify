@@ -13,5 +13,8 @@ class Credentials:
 
     SPOTIFY_REDIRECT_URI = "your spotify app redirect uri"
 ```
-3. Now, you are ready. To run the app execute the file `main.py`
+3. Now, you are ready. Execute:
+```shell
+flask run
+```
 
