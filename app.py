@@ -28,11 +28,8 @@ def list_playlists():
         playlists=user_playlists
     )
 
+
 @app.route('/order', methods=['POST'])
 def order_playlists():
     playlist_operator.reorder_playlist_by_release_date(request.form['playlist'])
-    user_playlists = playlist_operator.list_user_playlists()
-    return render_template(
-        "index.html",
-        playlists=user_playlists
-    )
+    return list_playlists()
