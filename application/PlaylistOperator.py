@@ -2,12 +2,7 @@ from collections import OrderedDict
 from datetime import datetime
 import re
 
-
-def build_pretty_playlists_list(results):
-    final_result = {}
-    for ixd, item in enumerate(results['items']):
-        final_result[item['name']] = item['id']
-    return final_result
+from domain.Playlist import Playlist
 
 
 def reorder_song_ids(items):
@@ -33,7 +28,16 @@ class PlaylistOperator:
 
     def list_user_playlists(self):
         results = self.spotipy.current_user_playlists(10)
-        return build_pretty_playlists_list(results)
+        final_result = []
+        for ixd, item in enumerate(results['items']):
+            final_result.append(Playlist(
+                item['name'],
+                item['id'],
+                item['description'],
+                item['images'][0]['url'],
+                item['tracks']['total']
+            ))
+        return final_result
 
     def reorder_playlist_by_release_date(self, playlist_id):
         song = self.getPlaylistItems(playlist_id)

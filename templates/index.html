@@ -6,25 +6,23 @@
 <body>
 <div class="container">
     <div class="row">
-    {% for playlist_name in playlists %}
-        <div class="col p-1">
-    <div class="card" style="width: 18rem;">
-        <img src="..." class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title">{{playlist_name}}</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">An item</li>
-            <li class="list-group-item">A second item</li>
-            <li class="list-group-item">A third item</li>
-        </ul>
-        <div class="card-body">
-            <button type="button" id='{{playlists.get(playlist_name)}}' class="btn btn-primary reorder">Order by release date (desc)</button>
-        </div>
-    </div>
-        </div>
-    {% endfor %}
+            {% for playlist in playlists %}
+                <div class="col p-1">
+            <div class="card" style="width: 18rem;">
+                <img src='{{playlist.get_image_uri()}}' class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{playlist.get_name()}}</h5>
+                    <p class="card-text">{{playlist.get_description()}}</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><b>Total tracks:</b> {{playlist.get_total_tracks()}}</li>
+                </ul>
+                <div class="card-body">
+                    <button type="button" id='{{playlist.get_spotify_id()}}' class="btn btn-primary reorder">Order by release date (desc)</button>
+                </div>
+            </div>
+                </div>
+            {% endfor %}
     </div>
 </div>
 

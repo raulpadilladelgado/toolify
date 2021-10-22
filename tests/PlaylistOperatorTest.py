@@ -2,6 +2,7 @@ import unittest
 from application.PlaylistOperator import PlaylistOperator, reorder_song_ids, split_songs_list_by_chunks
 from unittest.mock import Mock
 import json
+from domain.Playlist import Playlist
 
 FAKE_SONG_ID_TREE = 'SONG_ID_E'
 
@@ -13,6 +14,18 @@ FAKE_PLAYLIST_NAME = 'PLAYLIST_NAME'
 
 FAKE_PLAYLIST_ID = 'PLAYLIST_ID'
 
+FAKE_PLAYLIST_DESCRIPTION = 'A simple description'
+
+FAKE_PLAYLIST_IMAGE_URI = 'A simple uri'
+
+
+def populateFakePlaylistItemsList(fake_playlist_items):
+    for i in range(100):
+        fake_playlist_items['items'].append({
+            'id': FAKE_PLAYLIST_ID,
+            'name': FAKE_PLAYLIST_NAME
+        })
+
 
 class PlaylistOperatorTest(unittest.TestCase):
 
@@ -21,7 +34,16 @@ class PlaylistOperatorTest(unittest.TestCase):
             'items': [
                 {
                     'id': FAKE_PLAYLIST_ID,
-                    'name': FAKE_PLAYLIST_NAME
+                    'name': FAKE_PLAYLIST_NAME,
+                    'description': FAKE_PLAYLIST_DESCRIPTION,
+                    'images': [
+                        {
+                            'url': FAKE_PLAYLIST_IMAGE_URI
+                        }
+                    ],
+                    'tracks': {
+                        'total': 10
+                    }
                 }
             ]
         }
@@ -31,8 +53,15 @@ class PlaylistOperatorTest(unittest.TestCase):
 
         user_playlists = playlist_operator.list_user_playlists()
 
-        expected_result = {FAKE_PLAYLIST_NAME: FAKE_PLAYLIST_ID}
-        self.assertEqual(expected_result, user_playlists)
+        expected_result = [Playlist(
+            FAKE_PLAYLIST_NAME,
+            FAKE_PLAYLIST_ID,
+            FAKE_PLAYLIST_DESCRIPTION,
+            FAKE_PLAYLIST_IMAGE_URI,
+            10
+        )]
+        self.assertEqual(expected_result[0].get_name(), user_playlists[0].get_name())
+        self.assertEqual(expected_result[0].get_spotify_id(), user_playlists[0].get_spotify_id())
 
     def test_reorder_playlists(self):
         items = {
@@ -98,7 +127,7 @@ class PlaylistOperatorTest(unittest.TestCase):
 
             ]
         }
-        self.populateFakePlaylistItemsList(fake_playlist_items)
+        populateFakePlaylistItemsList(fake_playlist_items)
         spotipy_mock = Mock()
         spotipy_mock.playlist = Mock(return_value=fake_tracks_info)
         spotipy_mock.playlist_items = Mock(return_value=fake_playlist_items)
@@ -108,10 +137,3 @@ class PlaylistOperatorTest(unittest.TestCase):
         items = playlist_operator.getPlaylistItems(FAKE_PLAYLIST_ID)
 
         self.assertEqual(total_tracks_in_playlist, len(items))
-
-    def populateFakePlaylistItemsList(self, fake_playlist_items):
-        for i in range(100):
-            fake_playlist_items['items'].append({
-                'id': FAKE_PLAYLIST_ID,
-                'name': FAKE_PLAYLIST_NAME
-            })
