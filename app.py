@@ -1,5 +1,5 @@
 import spotipy
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, url_for
 from spotipy.oauth2 import SpotifyOAuth
 
 from config.Credentials import Credentials
@@ -25,7 +25,8 @@ def list_playlists():
     user_playlists = playlist_operator.list_user_playlists()
     return render_template(
         "index.html",
-        playlists=user_playlists
+        playlists=user_playlists,
+        order_playlists_url=url_for('order_playlists')
     )
 
 

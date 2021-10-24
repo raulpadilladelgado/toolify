@@ -33,7 +33,7 @@
     for (let i = 0; i < reorderButton.length; i++) {
         reorderButton[i].addEventListener('click', function () {
             var http = new XMLHttpRequest();
-            var url = 'http://127.0.0.1:5000/order';
+            var url = '{{order_playlists_url}}'
             var params = 'playlist=' + reorderButton[i].id;
             http.open('POST', url, true);
 
