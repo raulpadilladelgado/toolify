@@ -20,7 +20,7 @@ def list_playlists():
     host_url = flask.request.host_url
     sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=os.environ.get('SPOTIFY_CLIENT_ID'),
                                                    client_secret=os.environ.get('SPOTIFY_CLIENT_SECRET'),
-                                                   redirect_uri=host_url + 'callback',
+                                                   redirect_uri=os.environ.get('SPOTIFY_REDIRECT_URI'),
                                                    scope=scopes))
     playlist_operator = PlaylistOperator(sp)
     user_playlists = playlist_operator.list_user_playlists()
