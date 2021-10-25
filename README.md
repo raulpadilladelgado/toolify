@@ -1,19 +1,13 @@
-# Setup
-1. Install SpotyPy
+# Setup local environment
+1. Install dependencies
 ```shell
-pip install spotipy
-pip install flask
+pip install -r requirements.txt
 ```
-2. Create your own credentials file (`credentials.py`)
-```Python
-class Credentials:
-    SPOTIFY_CLIENT_SECRET = "your spotify client secret"
-
-    SPOTIFY_CLIENT_ID = "your spotify client id"
-
-    SPOTIFY_REDIRECT_URI = "your spotify app redirect uri"
-```
-3. Now, you are ready. Execute:
+2. Define some OS environment variables:
+- TOOLIFY_SECRET_KEY
+- SPOTIFY_REDIRECT_URI
+- SPOTIFY_CLIENT_SECRETSPOTIFY_CLIENT_ID
+3. Now, you can launch the server with:
 ```shell
 flask run
 ```

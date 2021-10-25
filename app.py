@@ -12,6 +12,9 @@ scopes = ["playlist-modify-private",
           "playlist-read-collaborative"]
 TOKEN_INFO = "token_info"
 app.secret_key = os.environ.get('TOOLIFY_SECRET_KEY')
+app.config.update(dict(
+    PREFERRED_URL_SCHEME='https'
+))
 
 
 @app.route("/")
