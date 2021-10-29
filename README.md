@@ -1,3 +1,12 @@
+# Welcome to
+![toolify.png](./resources/images/toolify.png)
+
+Toolify it's an web application written at python
+using the web framework flask and the spotify api wrapper 
+library spotipy.
+
+Using it, you can manage your playlist with several features
+that you can't get from the official spotify client
 # Setup local environment
 1. Install dependencies
 ```shell
