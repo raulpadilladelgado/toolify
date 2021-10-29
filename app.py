@@ -35,7 +35,7 @@ def list_playlists():
         token_info = get_token()
     except:
         print('user not logged in')
-        redirect(url_for('login', _external=True))
+        return redirect(url_for('login', _external=True))
     sp = spotipy.Spotify(auth=token_info['access_token'])
     playlist_operator = PlaylistOperator(sp)
     user_playlists = playlist_operator.list_user_playlists()
@@ -52,7 +52,7 @@ def order_playlists():
         token_info = get_token()
     except:
         print('user not logged in')
-        redirect(url_for('login', _external=True))
+        return redirect(url_for('login', _external=True))
     sp = spotipy.Spotify(auth=token_info['access_token'])
     playlist_operator = PlaylistOperator(sp)
     playlist_operator.reorder_playlist_by_release_date(request.form['playlist'])
