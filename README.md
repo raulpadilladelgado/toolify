@@ -1,5 +1,5 @@
 # Welcome to
-![toolify.png](./resources/images/toolify.png)
+![toolify.png](static/images/toolify.png)
 
 Toolify it's an web application written at python
 using the web framework flask and the spotify api wrapper 

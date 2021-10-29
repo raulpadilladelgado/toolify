@@ -27,7 +27,7 @@ class PlaylistOperator:
         self.spotipy = spotipy
 
     def list_user_playlists(self):
-        results = self.spotipy.current_user_playlists(10)
+        results = self.spotipy.current_user_playlists()
         final_result = []
         for ixd, item in enumerate(results['items']):
             final_result.append(Playlist(
