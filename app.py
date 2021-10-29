@@ -7,14 +7,9 @@ from application.PlaylistOperator import PlaylistOperator
 
 app = Flask(__name__)
 scopes = ["playlist-modify-private",
-          "playlist-read-private",
-          "playlist-modify-public",
-          "playlist-read-collaborative"]
+          "playlist-read-private"]
 TOKEN_INFO = "token_info"
 app.secret_key = os.environ.get('TOOLIFY_SECRET_KEY')
-app.config.update(dict(
-    PREFERRED_URL_SCHEME='https'
-))
 
 
 @app.route("/")
@@ -40,7 +35,7 @@ def list_playlists():
         token_info = get_token()
     except:
         print('user not logged in')
-        redirect('/')
+        redirect(url_for('login', _external=True))
     sp = spotipy.Spotify(auth=token_info['access_token'])
     playlist_operator = PlaylistOperator(sp)
     user_playlists = playlist_operator.list_user_playlists()
@@ -57,7 +52,7 @@ def order_playlists():
         token_info = get_token()
     except:
         print('user not logged in')
-        redirect('/')
+        redirect(url_for('login', _external=True))
     sp = spotipy.Spotify(auth=token_info['access_token'])
     playlist_operator = PlaylistOperator(sp)
     playlist_operator.reorder_playlist_by_release_date(request.form['playlist'])
