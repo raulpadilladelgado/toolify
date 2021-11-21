@@ -3,7 +3,7 @@ from application.PlaylistOperator import PlaylistOperator, reorder_song_ids, spl
 from unittest.mock import Mock
 import json
 from domain.Playlist import Playlist
-from domain.Item import Item
+from domain.Song import Song
 
 FAKE_SONG_ID_TREE = 'SONG_ID_E'
 
@@ -177,5 +177,5 @@ class PlaylistOperatorTest(unittest.TestCase):
 
         result = playlist_operator.find_duplicated_song(FAKE_PLAYLIST_ID)
 
-        expected_result = FAKE_SONG_NAME_ONE
-        self.assertEqual(expected_result, result)
+        expected_result = Song(FAKE_SONG_NAME_ONE, FAKE_SONG_ID_ONE)
+        self.assertEqual(expected_result.get_name(), result.get_name())

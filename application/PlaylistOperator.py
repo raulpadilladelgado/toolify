@@ -3,6 +3,7 @@ from datetime import datetime
 import re
 
 from domain.Playlist import Playlist
+from domain.Song import Song
 
 
 def reorder_song_ids(items):
@@ -25,7 +26,7 @@ def findDuplicatedSong(songs):
     not_duplicated_songs = list()
     for song in songs:
         if song['track']['name'] in not_duplicated_songs:
-            return song['track']['name']
+            return Song(song['track']['name'], song['track']['id'])
         else:
             not_duplicated_songs.append(song['track']['name'])
     return ''
