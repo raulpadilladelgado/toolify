@@ -3,10 +3,13 @@ from application.PlaylistOperator import PlaylistOperator, reorder_song_ids, spl
 from unittest.mock import Mock
 import json
 from domain.Playlist import Playlist
+from domain.Item import Item
 
 FAKE_SONG_ID_TREE = 'SONG_ID_E'
 
 FAKE_SONG_ID_ONE = 'SONG_ID_Z'
+
+FAKE_SONG_NAME_ONE = 'Aguacate'
 
 FAKE_SONG_ID_TWO = 'SONG_ID_D'
 
@@ -22,8 +25,8 @@ FAKE_PLAYLIST_IMAGE_URI = 'A simple uri'
 def populateFakePlaylistItemsList(fake_playlist_items):
     for i in range(100):
         fake_playlist_items['items'].append({
-            'id': FAKE_PLAYLIST_ID,
-            'name': FAKE_PLAYLIST_NAME
+            'id': FAKE_SONG_ID_ONE,
+            'name': FAKE_SONG_NAME_ONE
         })
 
 
@@ -137,3 +140,42 @@ class PlaylistOperatorTest(unittest.TestCase):
         items = playlist_operator.getPlaylistItems(FAKE_PLAYLIST_ID)
 
         self.assertEqual(total_tracks_in_playlist, len(items))
+
+    def test_find_duplicate_songs(self):
+        spotipy_mock = Mock()
+        fake_tracks_info = {
+            'tracks':
+                {
+                    'total': 2
+                }
+        }
+        items = {
+            'items': [
+                {
+                    'track': {
+                        'album': {
+                            'release_date': '2021-10-10'
+                        },
+                        'id': FAKE_SONG_ID_ONE,
+                        'name': FAKE_SONG_NAME_ONE
+                    }
+                },
+                {
+                    'track': {
+                        'album': {
+                            'release_date': '2021-10-10'
+                        },
+                        'id': FAKE_SONG_ID_ONE,
+                        'name': FAKE_SONG_NAME_ONE
+                    }
+                }
+            ]
+        }
+        spotipy_mock.playlist = Mock(return_value=fake_tracks_info)
+        spotipy_mock.playlist_items = Mock(return_value=items)
+        playlist_operator = PlaylistOperator(spotipy_mock)
+
+        result = playlist_operator.find_duplicated_song(FAKE_PLAYLIST_ID)
+
+        expected_result = FAKE_SONG_NAME_ONE
+        self.assertEqual(expected_result, result)
