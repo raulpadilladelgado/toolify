@@ -7,11 +7,15 @@ from domain.Song import Song
 
 FAKE_SONG_ID_TREE = 'SONG_ID_E'
 
+FAKE_SONG_NAME_TREE = 'Sandia'
+
 FAKE_SONG_ID_ONE = 'SONG_ID_Z'
 
 FAKE_SONG_NAME_ONE = 'Aguacate'
 
 FAKE_SONG_ID_TWO = 'SONG_ID_D'
+
+FAKE_SONG_NAME_TWO = 'Melon'
 
 FAKE_PLAYLIST_NAME = 'PLAYLIST_NAME'
 
@@ -168,6 +172,24 @@ class PlaylistOperatorTest(unittest.TestCase):
                         'id': FAKE_SONG_ID_ONE,
                         'name': FAKE_SONG_NAME_ONE
                     }
+                },
+                {
+                    'track': {
+                        'album': {
+                            'release_date': '2021-10-10'
+                        },
+                        'id': FAKE_SONG_ID_TWO,
+                        'name': FAKE_SONG_NAME_TWO
+                    }
+                },
+                {
+                    'track': {
+                        'album': {
+                            'release_date': '2021-10-10'
+                        },
+                        'id': FAKE_SONG_ID_TWO,
+                        'name': FAKE_SONG_NAME_TWO
+                    }
                 }
             ]
         }
@@ -177,5 +199,8 @@ class PlaylistOperatorTest(unittest.TestCase):
 
         result = playlist_operator.find_duplicated_song(FAKE_PLAYLIST_ID)
 
-        expected_result = Song(FAKE_SONG_NAME_ONE, FAKE_SONG_ID_ONE)
-        self.assertEqual(expected_result.get_name(), result.get_name())
+        expected_result = [Song(FAKE_SONG_NAME_ONE, FAKE_SONG_ID_ONE),
+                           Song(FAKE_SONG_NAME_TWO, FAKE_SONG_ID_TWO)]
+        self.assertEqual(expected_result[0].get_name(), result[0].get_name())
+        self.assertEqual(expected_result[1].get_name(), result[1].get_name())
+        self.assertEqual(2, len(result))

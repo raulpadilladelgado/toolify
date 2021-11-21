@@ -24,12 +24,13 @@ def split_songs_list_by_chunks(song_ids, chunk_size):
 
 def findDuplicatedSong(songs):
     not_duplicated_songs = list()
+    duplicated_songs = list()
     for song in songs:
         if song['track']['name'] in not_duplicated_songs:
-            return Song(song['track']['name'], song['track']['id'])
+            duplicated_songs.append(Song(song['track']['name'], song['track']['id']))
         else:
             not_duplicated_songs.append(song['track']['name'])
-    return ''
+    return duplicated_songs if len(duplicated_songs) > 0 else []
 
 
 class PlaylistOperator:
@@ -79,7 +80,7 @@ class PlaylistOperator:
 
     def find_duplicated_song(self, playlist_id):
         songs = self.getPlaylistItems(playlist_id)
-        duplicatedSong = findDuplicatedSong(songs)
-        return duplicatedSong
+        duplicatedSongs = findDuplicatedSong(songs)
+        return duplicatedSongs
 
 
