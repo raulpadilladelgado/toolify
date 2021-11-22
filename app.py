@@ -1,9 +1,13 @@
 import os
 import time
+
 import spotipy
 from flask import Flask, render_template, request, url_for, redirect, session
 from spotipy.oauth2 import SpotifyOAuth
-from application.PlaylistOperator import PlaylistOperator
+
+from application.main.use_cases.ReorderPlaylistByReleaseDate import ReorderPlaylist
+from domain.main.services.ReorderByReleaseDate import ReorderByReleaseDate
+from source_code.application.main.use_cases.ListUserPlaylists import ListUserPlaylists
 
 app = Flask(__name__)
 scopes = ["playlist-modify-private",
@@ -37,8 +41,8 @@ def list_playlists():
         print('user not logged in')
         return redirect(url_for('login', _external=True))
     sp = spotipy.Spotify(auth=token_info['access_token'])
-    playlist_operator = PlaylistOperator(sp)
-    user_playlists = playlist_operator.list_user_playlists()
+    list_user_playlists = ListUserPlaylists(sp)
+    user_playlists = list_user_playlists.apply();
     return render_template(
         "index.html",
         playlists=user_playlists,
@@ -54,8 +58,9 @@ def order_playlists():
         print('user not logged in')
         return redirect(url_for('login', _external=True))
     sp = spotipy.Spotify(auth=token_info['access_token'])
-    playlist_operator = PlaylistOperator(sp)
-    playlist_operator.reorder_playlist_by_release_date(request.form['playlist'])
+    reorderer = ReorderByReleaseDate()
+    reorder_playlist = ReorderPlaylist(sp, request.form['playlist'], reorderer)
+    reorder_playlist.apply()
     return list_playlists()
 
 

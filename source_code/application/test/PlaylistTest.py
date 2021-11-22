@@ -1,9 +1,13 @@
-import unittest
-from source_code.application.main.PlaylistOperator import PlaylistOperator, reorder_song_ids, split_songs_list_by_chunks
-from unittest.mock import Mock
 import json
-from source_code.domain.main.Playlist import Playlist
-from source_code.domain.main.Song import Song
+import unittest
+from unittest.mock import Mock
+
+from application.main.use_cases.FindDuplicateSong import FindDuplicateSong
+from application.main.use_cases.ListUserPlaylists import ListUserPlaylists
+from domain.main.entities.Playlist import Playlist
+from domain.main.entities.Song import Song
+from domain.main.services.PlaylistService import split_songs_list_by_chunks, PlaylistService
+from domain.main.services.ReorderByReleaseDate import ReorderByReleaseDate
 
 FAKE_SONG_ID_TREE = 'SONG_ID_E'
 
@@ -56,9 +60,9 @@ class PlaylistOperatorTest(unittest.TestCase):
         }
         spotipy_mock = Mock()
         spotipy_mock.current_user_playlists = Mock(return_value=fake_playlists_list)
-        playlist_operator = PlaylistOperator(spotipy_mock)
+        list_user_playlists = ListUserPlaylists(spotipy_mock)
 
-        user_playlists = playlist_operator.list_user_playlists()
+        user_playlists = list_user_playlists.apply()
 
         expected_result = [Playlist(
             FAKE_PLAYLIST_NAME,
@@ -99,8 +103,9 @@ class PlaylistOperatorTest(unittest.TestCase):
                 }
             ]
         }
+        reorderer_playlist_by_release_date = ReorderByReleaseDate()
 
-        user_playlists = reorder_song_ids(items['items'])
+        user_playlists = reorderer_playlist_by_release_date.execute(items['items'])
 
         expected_result = [FAKE_SONG_ID_ONE, FAKE_SONG_ID_TWO, FAKE_SONG_ID_TREE]
         self.assertEqual(json.dumps(expected_result), json.dumps(user_playlists))
@@ -139,9 +144,9 @@ class PlaylistOperatorTest(unittest.TestCase):
         spotipy_mock.playlist = Mock(return_value=fake_tracks_info)
         spotipy_mock.playlist_items = Mock(return_value=fake_playlist_items)
         spotipy_mock.playlist_items = Mock(return_value=fake_playlist_items)
-        playlist_operator = PlaylistOperator(spotipy_mock)
+        playlist_service = PlaylistService(spotipy_mock)
 
-        items = playlist_operator.getPlaylistItems(FAKE_PLAYLIST_ID)
+        items = playlist_service.getPlaylistItems(FAKE_PLAYLIST_ID)
 
         self.assertEqual(total_tracks_in_playlist, len(items))
 
@@ -195,9 +200,9 @@ class PlaylistOperatorTest(unittest.TestCase):
         }
         spotipy_mock.playlist = Mock(return_value=fake_tracks_info)
         spotipy_mock.playlist_items = Mock(return_value=items)
-        playlist_operator = PlaylistOperator(spotipy_mock)
+        find_duplicated_song = FindDuplicateSong(spotipy_mock, FAKE_PLAYLIST_ID)
 
-        result = playlist_operator.find_duplicated_song(FAKE_PLAYLIST_ID)
+        result = find_duplicated_song.apply()
 
         expected_result = [Song(FAKE_SONG_NAME_ONE, FAKE_SONG_ID_ONE),
                            Song(FAKE_SONG_NAME_TWO, FAKE_SONG_ID_TWO)]
