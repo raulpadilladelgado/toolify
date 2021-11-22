@@ -1,9 +1,9 @@
 import unittest
-from application.PlaylistOperator import PlaylistOperator, reorder_song_ids, split_songs_list_by_chunks
+from source_code.application.main.PlaylistOperator import PlaylistOperator, reorder_song_ids, split_songs_list_by_chunks
 from unittest.mock import Mock
 import json
-from domain.Playlist import Playlist
-from domain.Song import Song
+from source_code.domain.main.Playlist import Playlist
+from source_code.domain.main.Song import Song
 
 FAKE_SONG_ID_TREE = 'SONG_ID_E'
 

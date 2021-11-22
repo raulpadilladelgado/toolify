@@ -2,8 +2,8 @@ from collections import OrderedDict
 from datetime import datetime
 import re
 
-from domain.Playlist import Playlist
-from domain.Song import Song
+from source_code.domain.main.Playlist import Playlist
+from source_code.domain.main.Song import Song
 
 
 def reorder_song_ids(items):
