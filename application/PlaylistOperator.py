@@ -3,6 +3,7 @@ from datetime import datetime
 import re
 
 from domain.Playlist import Playlist
+from domain.Song import Song
 
 
 def reorder_song_ids(items):
@@ -19,6 +20,17 @@ def reorder_song_ids(items):
 
 def split_songs_list_by_chunks(song_ids, chunk_size):
     return [song_ids[x:x + chunk_size] for x in range(0, len(song_ids), chunk_size)]
+
+
+def findDuplicatedSong(songs):
+    not_duplicated_songs = list()
+    duplicated_songs = list()
+    for song in songs:
+        if song['track']['name'] in not_duplicated_songs:
+            duplicated_songs.append(Song(song['track']['name'], song['track']['id']))
+        else:
+            not_duplicated_songs.append(song['track']['name'])
+    return duplicated_songs if len(duplicated_songs) > 0 else []
 
 
 class PlaylistOperator:
@@ -43,7 +55,7 @@ class PlaylistOperator:
         song = self.getPlaylistItems(playlist_id)
         reordered_song = reorder_song_ids(song)
         self.delete_items_in_playlist(playlist_id)
-        self.add_items_to_playlist_by_chunks_of_100(playlist_id, reordered_song)
+        self.add_items_to_playlist(playlist_id, reordered_song)
 
     def getPlaylistItems(self, playlist_id):
         number_of_tracks_in_playlist = self.spotipy.playlist(playlist_id)['tracks']['total']
@@ -61,7 +73,14 @@ class PlaylistOperator:
     def delete_items_in_playlist(self, playlist_id):
         self.spotipy.playlist_replace_items(playlist_id, [])
 
-    def add_items_to_playlist_by_chunks_of_100(self, playlist_id, song_ids):
+    def add_items_to_playlist(self, playlist_id, song_ids):
         chunks = split_songs_list_by_chunks(song_ids, 100)
         for i in range(len(chunks)):
             self.spotipy.playlist_add_items(playlist_id, chunks[i])
+
+    def find_duplicated_song(self, playlist_id):
+        songs = self.getPlaylistItems(playlist_id)
+        duplicatedSongs = findDuplicatedSong(songs)
+        return duplicatedSongs
+
+
