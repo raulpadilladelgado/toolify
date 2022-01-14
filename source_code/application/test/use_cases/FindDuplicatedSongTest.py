@@ -1,8 +1,8 @@
 import unittest
 from unittest.mock import Mock
 
-from application.main.use_cases.FindDuplicateSong import FindDuplicateSong
-from domain.main.entities.Song import Song
+from source_code.application.main.use_cases.FindDuplicateSong import FindDuplicateSong
+from source_code.domain.main.entities.Song import Song
 
 FAKE_SONG_ID_TREE = 'SONG_ID_E'
 

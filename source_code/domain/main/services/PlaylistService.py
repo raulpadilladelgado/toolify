@@ -26,3 +26,6 @@ class PlaylistService:
         chunks = split_songs_list_by_chunks(song_ids, 100)
         for i in range(len(chunks)):
             self.spotipy.playlist_add_items(playlist_id, chunks[i])
+
+    def get_user_id(self):
+        print(self.spotipy.current_user())

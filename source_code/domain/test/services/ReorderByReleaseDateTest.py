@@ -1,7 +1,7 @@
 import json
 import unittest
 
-from domain.main.services.ReorderByReleaseDate import ReorderByReleaseDate
+from source_code.domain.main.services.ReorderByReleaseDate import ReorderByReleaseDate
 
 FAKE_SONG_ID_TREE = 'SONG_ID_E'
 

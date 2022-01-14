@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import Mock
 
-from domain.main.services.PlaylistService import split_songs_list_by_chunks, PlaylistService
+from source_code.domain.main.services.PlaylistService import split_songs_list_by_chunks, PlaylistService
 
 FAKE_SONG_ID_TREE = 'SONG_ID_E'
 

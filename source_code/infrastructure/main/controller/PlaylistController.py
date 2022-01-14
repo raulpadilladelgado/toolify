@@ -8,6 +8,7 @@ from spotipy.oauth2 import SpotifyOAuth
 from source_code.application.main.use_cases.ListUserPlaylists import ListUserPlaylists
 from source_code.application.main.use_cases.ReorderPlaylistByReleaseDate import ReorderPlaylist
 from source_code.domain.main.services.ReorderByReleaseDate import ReorderByReleaseDate
+from source_code.infrastructure.main.exceptions.LoginError import LoginError
 
 scopes = ["playlist-modify-private",
           "playlist-read-private"]
@@ -32,12 +33,11 @@ def redirect_page():
 def list_playlists():
     try:
         token_info = get_token()
-    except:
-        print('user not logged in')
+    except LoginError:
         return redirect(url_for('login', _external=True))
     sp = spotipy.Spotify(auth=token_info['access_token'])
     list_user_playlists = ListUserPlaylists(sp)
-    user_playlists = list_user_playlists.apply();
+    user_playlists = list_user_playlists.apply()
     return render_template(
         "index.html",
         playlists=user_playlists,
@@ -48,8 +48,7 @@ def list_playlists():
 def order_playlists():
     try:
         token_info = get_token()
-    except:
-        print('user not logged in')
+    except LoginError:
         return redirect(url_for('login', _external=True))
     sp = spotipy.Spotify(auth=token_info['access_token'])
     reorderer = ReorderByReleaseDate()
@@ -68,7 +67,7 @@ def create_spotify_oauth():
 def get_token():
     token_info = session.get(TOKEN_INFO, None)
     if not token_info:
-        raise "exception"
+        raise LoginError("Not token info is found")
     now = int(time.time())
     is_expired = token_info['expires_at'] - now
     if is_expired:

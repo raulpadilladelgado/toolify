@@ -1,5 +1,5 @@
-from domain.main.entities.Song import Song
-from domain.main.services.PlaylistService import PlaylistService
+from source_code.domain.main.entities.Song import Song
+from source_code.domain.main.services.PlaylistService import PlaylistService
 
 
 def findDuplicatedSong(songs):
