@@ -1,4 +1,4 @@
-from source_code.domain.main.entities.Playlist import Playlist
+from source_code.domain.main.value_objects.Playlist import Playlist
 
 
 class ListUserPlaylists:

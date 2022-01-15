@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import Mock
 
 from source_code.application.main.use_cases.ListUserPlaylists import ListUserPlaylists
-from source_code.domain.main.entities.Playlist import Playlist
+from source_code.domain.main.value_objects.Playlist import Playlist
 
 FAKE_SONG_ID_TREE = 'SONG_ID_E'
 

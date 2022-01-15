@@ -1,4 +1,6 @@
-from source_code.domain.main.services.PlaylistService import PlaylistService
+from source_code.domain.main.services.AddPlaylistItems import AddPlaylistItems
+from source_code.domain.main.services.DeletePlaylistItems import DeletePlaylistItems
+from source_code.domain.main.services.GetPlaylistItems import GetPlaylistItems
 
 
 class ReorderPlaylist:
@@ -8,8 +10,10 @@ class ReorderPlaylist:
         self.reorderer = reorderer
 
     def apply(self):
-        playlist_service = PlaylistService(self.spotipy)
-        song = playlist_service.getPlaylistItems(self.playlist_id)
+        get_playlist_items = GetPlaylistItems(self.spotipy, self.playlist_id)
+        song = get_playlist_items.apply()
         reordered_song = self.reorderer.execute(song)
-        playlist_service.delete_items_in_playlist(self.playlist_id)
-        playlist_service.add_items_to_playlist(self.playlist_id, reordered_song)
+        delete_items_in_playlist = DeletePlaylistItems(self.spotipy, self.playlist_id)
+        delete_items_in_playlist.apply()
+        add_items_to_playlist = AddPlaylistItems(self.spotipy, self.playlist_id, reordered_song)
+        add_items_to_playlist.apply()
