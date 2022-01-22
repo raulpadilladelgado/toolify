@@ -2,6 +2,7 @@ import unittest
 from unittest.mock import Mock
 
 from source_code.domain.main.services.GetPlaylistItems import GetPlaylistItems
+from source_code.domain.main.wrappers.SpotipyWrapper import SpotifyWrapper
 
 FAKE_SONG_ID_TREE = 'SONG_ID_E'
 
@@ -44,7 +45,8 @@ class GetPlaylistItemsTest(unittest.TestCase):
         spotipy_mock.playlist = Mock(return_value=fake_tracks_info)
         spotipy_mock.playlist_items = Mock(return_value=fake_playlist_items)
         spotipy_mock.playlist_items = Mock(return_value=fake_playlist_items)
-        get_playlist_items = GetPlaylistItems(spotipy_mock, FAKE_PLAYLIST_ID)
+        spotify_wrapper = SpotifyWrapper(spotipy_mock)
+        get_playlist_items = GetPlaylistItems(spotify_wrapper, FAKE_PLAYLIST_ID)
 
         items = get_playlist_items.apply()
 
