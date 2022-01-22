@@ -7,7 +7,7 @@ class SpotifyWrapper:
             self.spotipy.playlist_add_items(playlist_id, items[i])
 
     def delete_all_items(self, playlist_id):
-        self.spotipy.delete_all_items(playlist_id, [])
+        self.spotipy.playlist_replace_items(playlist_id, [])
 
     def get_playlist_items_size(self, playlist_id):
         return self.spotipy.playlist(playlist_id)['tracks']['total']
