@@ -2,7 +2,8 @@ import unittest
 from unittest.mock import Mock
 
 from source_code.application.main.use_cases.ListUserPlaylists import ListUserPlaylists
-from source_code.domain.main.entities.Playlist import Playlist
+from source_code.domain.main.value_objects.Playlist import Playlist
+from source_code.domain.main.wrappers.SpotipyWrapper import SpotifyWrapper
 
 FAKE_SONG_ID_TREE = 'SONG_ID_E'
 
@@ -51,7 +52,8 @@ class ListUserPlaylistsTest(unittest.TestCase):
         spotipy_mock = Mock()
         spotipy_mock.current_user_playlists = Mock(return_value=fake_playlists_list)
         spotipy_mock.current_user = Mock(return_value=fake_user)
-        list_user_playlists = ListUserPlaylists(spotipy_mock)
+        spotify_wrapper = SpotifyWrapper(spotipy_mock)
+        list_user_playlists = ListUserPlaylists(spotify_wrapper)
 
         user_playlists = list_user_playlists.apply()
 
@@ -90,7 +92,8 @@ class ListUserPlaylistsTest(unittest.TestCase):
         spotipy_mock = Mock()
         spotipy_mock.current_user_playlists = Mock(return_value=fake_playlists_list)
         spotipy_mock.current_user = Mock(return_value=fake_user)
-        list_user_playlists = ListUserPlaylists(spotipy_mock)
+        spotify_wrapper = SpotifyWrapper(spotipy_mock)
+        list_user_playlists = ListUserPlaylists(spotify_wrapper)
 
         user_playlists = list_user_playlists.apply()
 
