@@ -1,10 +1,10 @@
 import string
 
-from source_code.domain.main.wrappers.SpotipyWrapper import SpotifyWrapper
+from source_code.infrastructure.main.adapters import SpotipyApi
 
 
 class DeletePlaylistItems:
-    def __init__(self, spotipy: SpotifyWrapper, playlist_id: string):
+    def __init__(self, spotipy: SpotipyApi, playlist_id: string):
         self.spoti_wrapper = spotipy
         self.playlist_id = playlist_id
 

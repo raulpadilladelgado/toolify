@@ -1,7 +1,7 @@
-class SpotifyWrapper:
-    def __init__(self, spotipy):
-        self.spotipy = spotipy
+from source_code.application.main.ports.SpotifyWrapper import SpotifyWrapper
 
+
+class SpotipyApi(SpotifyWrapper):
     def playlist_add_items(self, playlist_id, items):
         for i in range(len(items)):
             self.spotipy.playlist_add_items(playlist_id, items[i])
@@ -17,6 +17,14 @@ class SpotifyWrapper:
         items = self.__get_playlist_items_by_batch(number_of_tracks_in_playlist, playlist_id)
         return items
 
+    def get_playlists(self):
+        results = self.spotipy.current_user_playlists()
+        return results
+
+    def get_user(self):
+        user_id = self.spotipy.current_user()
+        return user_id['id']
+
     def __get_playlist_items_by_batch(self, number_of_tracks_in_playlist, playlist_id):
         if number_of_tracks_in_playlist > 100:
             result = []
@@ -28,11 +36,3 @@ class SpotifyWrapper:
             return result
         items = self.spotipy.playlist_items(playlist_id, 'items')['items']
         return items
-
-    def get_playlists(self):
-        results = self.spotipy.current_user_playlists()
-        return results
-
-    def get_user(self):
-        user_id = self.spotipy.current_user()
-        return user_id['id']

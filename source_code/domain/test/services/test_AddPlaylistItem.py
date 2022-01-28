@@ -1,6 +1,6 @@
 import unittest
 
-from source_code.domain.main.services.AddPlaylistItems import split_songs_list_by_chunks
+from source_code.application.main.services.AddPlaylistItems import split_songs_list_by_chunks
 
 FAKE_SONG_ID_ONE = 'SONG_ID_Z'
 

@@ -1,11 +1,11 @@
-from source_code.domain.main.services.AddPlaylistItems import AddPlaylistItems
-from source_code.domain.main.services.DeletePlaylistItems import DeletePlaylistItems
-from source_code.domain.main.services.GetPlaylistItems import GetPlaylistItems
-from source_code.domain.main.wrappers.SpotipyWrapper import SpotifyWrapper
+from source_code.application.main.services.AddPlaylistItems import AddPlaylistItems
+from source_code.application.main.services.DeletePlaylistItems import DeletePlaylistItems
+from source_code.application.main.services.GetPlaylistItems import GetPlaylistItems
+from source_code.infrastructure.main.adapters import SpotipyApi
 
 
 class ReorderPlaylist:
-    def __init__(self, spotipy: SpotifyWrapper, playlist_id, reorderer):
+    def __init__(self, spotipy: SpotipyApi, playlist_id, reorderer):
         self.spotipy = spotipy
         self.playlist_id = playlist_id
         self.reorderer = reorderer

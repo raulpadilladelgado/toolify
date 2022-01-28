@@ -3,7 +3,7 @@ from unittest.mock import Mock
 
 from source_code.application.main.use_cases.FindDuplicateSong import FindDuplicateSong
 from source_code.domain.main.value_objects.Song import Song
-from source_code.domain.main.wrappers.SpotipyWrapper import SpotifyWrapper
+from source_code.infrastructure.main.adapters.SpotipyApi import SpotipyApi
 
 FAKE_SONG_ID_TREE = 'SONG_ID_E'
 
@@ -77,7 +77,7 @@ class FindDuplicatedSongTest(unittest.TestCase):
         spotipy_mock = Mock()
         spotipy_mock.playlist = Mock(return_value=fake_tracks_info)
         spotipy_mock.playlist_items = Mock(return_value=items)
-        spotify_wrapper = SpotifyWrapper(spotipy_mock)
+        spotify_wrapper = SpotipyApi(spotipy_mock)
         find_duplicated_song = FindDuplicateSong(spotify_wrapper, FAKE_PLAYLIST_ID)
 
         result = find_duplicated_song.apply()

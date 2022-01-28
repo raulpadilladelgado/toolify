@@ -1,6 +1,6 @@
 from source_code.domain.main.value_objects.Playlist import Playlist
-from source_code.domain.main.services.GetPlaylists import GetPlaylists
-from source_code.domain.main.services.GetUserId import GetUserId
+from source_code.application.main.services.GetPlaylists import GetPlaylists
+from source_code.application.main.services.GetUserId import GetUserId
 
 
 class ListUserPlaylists:

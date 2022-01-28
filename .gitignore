@@ -2,3 +2,5 @@
 toolify.iml
 .cache
 toolify-env
+venv
+.env
