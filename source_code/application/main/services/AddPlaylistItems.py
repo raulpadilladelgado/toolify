@@ -1,11 +1,11 @@
 import array
 import string
 
-from source_code.domain.main.wrappers.SpotipyWrapper import SpotifyWrapper
+from source_code.infrastructure.main.adapters import SpotipyApi
 
 
 class AddPlaylistItems:
-    def __init__(self, spotipy: SpotifyWrapper, playlist_id: string, songs_ids: array):
+    def __init__(self, spotipy: SpotipyApi, playlist_id: string, songs_ids: array):
         self.spoti_wrapper = spotipy
         self.playlist_id = playlist_id
         self.songs_ids = songs_ids

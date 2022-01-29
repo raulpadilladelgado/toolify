@@ -1,8 +1,5 @@
-from source_code.domain.main.wrappers import SpotipyWrapper
-
-
 class GetUserId:
-    def __init__(self, spotipy: SpotipyWrapper):
+    def __init__(self, spotipy):
         self.spotipy = spotipy
 
     def apply(self):

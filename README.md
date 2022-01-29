@@ -12,10 +12,11 @@ that you can't get from the official spotify client
 ```shell
 pip install -r requirements.txt
 ```
-2. Define some OS environment variables:
+2. Create your own .env file, and fill it with the required environment variables:
 - TOOLIFY_SECRET_KEY
 - SPOTIFY_REDIRECT_URI
-- SPOTIFY_CLIENT_SECRETSPOTIFY_CLIENT_ID
+- SPOTIFY_CLIENT_SECRET
+- SPOTIFY_CLIENT_ID
 3. Now, you can launch the server with:
 ```shell
 flask run

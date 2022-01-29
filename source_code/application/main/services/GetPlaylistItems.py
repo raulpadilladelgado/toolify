@@ -1,10 +1,8 @@
 import string
 
-from source_code.domain.main.wrappers import SpotipyWrapper
-
 
 class GetPlaylistItems:
-    def __init__(self, spotipy: SpotipyWrapper, playlist_id: string):
+    def __init__(self, spotipy, playlist_id: string):
         self.spoti_wrapper = spotipy
         self.playlist_id = playlist_id
 
