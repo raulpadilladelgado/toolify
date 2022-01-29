@@ -1,10 +1,11 @@
+from source_code.application.main.ports.SpotifyWrapper import SpotifyWrapper
 from source_code.domain.main.value_objects.Playlist import Playlist
 from source_code.application.main.services.GetPlaylists import GetPlaylists
 from source_code.application.main.services.GetUserId import GetUserId
 
 
 class ListUserPlaylists:
-    def __init__(self, spotipy):
+    def __init__(self, spotipy: SpotifyWrapper):
         self.spotipy = spotipy
         self.get_playlists = GetPlaylists(spotipy)
         self.get_user_id = GetUserId(spotipy)

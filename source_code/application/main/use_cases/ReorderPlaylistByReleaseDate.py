@@ -1,19 +1,20 @@
+from source_code.application.main.ports.SpotifyWrapper import SpotifyWrapper
 from source_code.application.main.services.AddPlaylistItems import AddPlaylistItems
 from source_code.application.main.services.DeletePlaylistItems import DeletePlaylistItems
 from source_code.application.main.services.GetPlaylistItems import GetPlaylistItems
-from source_code.infrastructure.main.adapters import SpotipyApi
+from source_code.application.main.services.ReorderByReleaseDate import ReorderByReleaseDate
 
 
 class ReorderPlaylist:
-    def __init__(self, spotipy: SpotipyApi, playlist_id, reorderer):
+    def __init__(self, spotipy: SpotifyWrapper, playlist_id: str):
         self.spotipy = spotipy
         self.playlist_id = playlist_id
-        self.reorderer = reorderer
+        self.reorder = ReorderByReleaseDate()
 
     def apply(self):
         get_playlist_items = GetPlaylistItems(self.spotipy, self.playlist_id)
         song = get_playlist_items.apply()
-        reordered_song = self.reorderer.execute(song)
+        reordered_song = self.reorder.execute(song)
         delete_items_in_playlist = DeletePlaylistItems(self.spotipy, self.playlist_id)
         delete_items_in_playlist.apply()
         add_items_to_playlist = AddPlaylistItems(self.spotipy, self.playlist_id, reordered_song)

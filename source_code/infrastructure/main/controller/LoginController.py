@@ -14,7 +14,8 @@ TOKEN_INFO = "token_info"
 
 class LoginController:
 
-    def get_token_info(self):
+    @staticmethod
+    def get_token_info():
         try:
             return get_token()
         except LoginError:
