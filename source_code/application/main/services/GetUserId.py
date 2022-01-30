@@ -1,5 +1,8 @@
+from source_code.application.main.ports.SpotifyWrapper import SpotifyWrapper
+
+
 class GetUserId:
-    def __init__(self, spotipy):
+    def __init__(self, spotipy: SpotifyWrapper):
         self.spotipy = spotipy
 
     def apply(self):

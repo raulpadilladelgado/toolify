@@ -14,7 +14,7 @@ class ReorderPlaylist:
     def apply(self):
         get_playlist_items = GetPlaylistItems(self.spotipy, self.playlist_id)
         song = get_playlist_items.apply()
-        reordered_song = self.reorder.execute(song)
+        reordered_song = execute(song)
         delete_items_in_playlist = DeletePlaylistItems(self.spotipy, self.playlist_id)
         delete_items_in_playlist.apply()
         add_items_to_playlist = AddPlaylistItems(self.spotipy, self.playlist_id, reordered_song)

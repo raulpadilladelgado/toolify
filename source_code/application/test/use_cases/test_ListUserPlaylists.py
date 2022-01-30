@@ -5,17 +5,6 @@ from source_code.application.main.use_cases.ListUserPlaylists import ListUserPla
 from source_code.domain.main.value_objects.Playlist import Playlist
 from source_code.infrastructure.main.adapters.SpotipyApi import SpotipyApi
 
-FAKE_SONG_ID_TREE = 'SONG_ID_E'
-
-FAKE_SONG_NAME_TREE = 'Sandia'
-
-FAKE_SONG_ID_ONE = 'SONG_ID_Z'
-
-FAKE_SONG_NAME_ONE = 'Aguacate'
-
-FAKE_SONG_ID_TWO = 'SONG_ID_D'
-
-FAKE_SONG_NAME_TWO = 'Melon'
 
 FAKE_PLAYLIST_NAME = 'PLAYLIST_NAME'
 

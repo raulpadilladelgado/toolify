@@ -2,9 +2,12 @@ from source_code.application.main.ports.SpotifyWrapper import SpotifyWrapper
 
 
 class SpotipyApi(SpotifyWrapper):
+    __CHUNK_SIZE = 100
+
     def playlist_add_items(self, playlist_id, items):
-        for i in range(len(items)):
-            self.spotipy.playlist_add_items(playlist_id, items[i])
+        chunks = self.__split_songs_list_by_chunks(items)
+        for i in range(len(chunks)):
+            self.spotipy.playlist_add_items(playlist_id, chunks[i])
 
     def delete_all_items(self, playlist_id):
         self.spotipy.playlist_replace_items(playlist_id, [])
@@ -36,3 +39,6 @@ class SpotipyApi(SpotifyWrapper):
             return result
         items = self.spotipy.playlist_items(playlist_id, 'items')['items']
         return items
+
+    def __split_songs_list_by_chunks(self, song_ids):
+        return [song_ids[x:x + self.__CHUNK_SIZE] for x in range(0, len(song_ids), self.__CHUNK_SIZE)]
