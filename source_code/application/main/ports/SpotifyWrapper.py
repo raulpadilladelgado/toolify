@@ -1,6 +1,6 @@
 class SpotifyWrapper:
-    def __init__(self, spotipy):
-        self.spotipy = spotipy
+    def __init__(self):
+        ...
 
     def playlist_add_items(self, playlist_id, items):
         ...

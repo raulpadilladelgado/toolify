@@ -1,8 +1,10 @@
 import string
 
+from source_code.application.main.ports.SpotifyWrapper import SpotifyWrapper
+
 
 class GetPlaylistItems:
-    def __init__(self, spotipy, playlist_id: string):
+    def __init__(self, spotipy: SpotifyWrapper, playlist_id: string):
         self.spoti_wrapper = spotipy
         self.playlist_id = playlist_id
 

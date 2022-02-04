@@ -1,7 +1,7 @@
 from source_code.application.main.ports.SpotifyWrapper import SpotifyWrapper
-from source_code.domain.main.value_objects.Playlist import Playlist
 from source_code.application.main.services.GetPlaylists import GetPlaylists
 from source_code.application.main.services.GetUserId import GetUserId
+from source_code.domain.main.value_objects.Playlist import Playlist
 
 
 class ListUserPlaylists:
