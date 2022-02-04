@@ -5,7 +5,7 @@ from flask import Flask
 import source_code.infrastructure.main.controller.PlaylistController as PlaylistRoutes
 import source_code.infrastructure.main.controller.LoginController as LoginRoutes
 
-app = Flask(__name__, template_folder="static/templates")
+app = Flask(__name__, template_folder="../../static/templates")
 app.secret_key = os.environ.get('TOOLIFY_SECRET_KEY')
 app.add_url_rule('/', view_func=LoginRoutes.login)
 app.add_url_rule('/redirect', view_func=LoginRoutes.redirect_page)
