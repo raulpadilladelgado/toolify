@@ -4,6 +4,10 @@ from source_code.application.main.ports.SpotifyWrapper import SpotifyWrapper
 class SpotipyApi(SpotifyWrapper):
     __CHUNK_SIZE = 100
 
+    def __init__(self, spotipy):
+        super().__init__()
+        self.spotipy = spotipy
+
     def playlist_add_items(self, playlist_id, items):
         chunks = self.__split_songs_list_by_chunks(items)
         for i in range(len(chunks)):
