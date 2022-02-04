@@ -11,6 +11,3 @@ app.add_url_rule('/', view_func=LoginRoutes.login)
 app.add_url_rule('/redirect', view_func=LoginRoutes.redirect_page)
 app.add_url_rule('/list', view_func=PlaylistRoutes.list_playlists)
 app.add_url_rule('/order', view_func=PlaylistRoutes.order_playlists, methods=["POST"])
-
-if __name__ == '__main__':
-    app.run()
