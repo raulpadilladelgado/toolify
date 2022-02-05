@@ -3,7 +3,7 @@ from collections import OrderedDict
 from datetime import datetime
 
 
-def execute(items):
+def reorder(items):
     tracks = dict()
     for i in range(len(items)):
         if re.search("^\d{4}-\d{2}-\d{2}$", items[i]['track']['album']['release_date']):

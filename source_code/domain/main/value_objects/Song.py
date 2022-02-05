@@ -1,5 +1,5 @@
 class Song:
-    def __init__(self, name, spotify_id):
+    def __init__(self, name: str, spotify_id: str):
         self.__name = name
         self.__spotify_id = spotify_id
 
@@ -8,6 +8,11 @@ class Song:
 
     def get_spotify_id(self):
         return self.__spotify_id
+
+    def __str__(self) -> str:
+        return self.__name + ' - ' + self.__spotify_id
+
+
 
 
 

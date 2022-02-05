@@ -1,7 +1,7 @@
 import json
 import unittest
 
-from source_code.application.main.services.ReorderByReleaseDate import execute
+from source_code.application.main.services.ReorderByReleaseDate import reorder
 
 FAKE_SONG_ID_TREE = 'SONG_ID_E'
 
@@ -14,7 +14,7 @@ class ReorderByReleaseDateTest(unittest.TestCase):
     def test_reorder_playlists(self):
         items = a_list_of_song_ids_with_release_dates()
 
-        user_playlists = execute(items)
+        user_playlists = reorder(items)
 
         expected_result = [FAKE_SONG_ID_ONE, FAKE_SONG_ID_TWO, FAKE_SONG_ID_TREE]
         self.assertEqual(json.dumps(expected_result), json.dumps(user_playlists))
