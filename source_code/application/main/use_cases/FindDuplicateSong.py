@@ -1,12 +1,12 @@
 from source_code.application.main.ports.SpotifyWrapper import SpotifyWrapper
 from source_code.application.main.services.FindDuplicatedSong import find_duplicated_song
-from source_code.application.main.services.GetPlaylistItems import GetPlaylistItems
 
 
 class FindDuplicateSong:
     def __init__(self, spotipy: SpotifyWrapper, playlist_id: str):
-        self.get_playlist_items = GetPlaylistItems(spotipy, playlist_id)
+        self.spotipy = spotipy
+        self.playlist_id = playlist_id
 
     def apply(self):
-        songs = self.get_playlist_items.apply()
+        songs = self.spotipy.get_playlist_items(self.playlist_id)
         return find_duplicated_song(songs)
