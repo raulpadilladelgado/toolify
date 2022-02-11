@@ -8,12 +8,3 @@ class Song:
 
     def get_spotify_id(self):
         return self.__spotify_id
-
-    def __str__(self) -> str:
-        return self.__name + ' - ' + self.__spotify_id
-
-
-
-
-
-

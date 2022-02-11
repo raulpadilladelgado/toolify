@@ -3,7 +3,7 @@ from source_code.domain.main.value_objects.Playlist import Playlist
 
 def transform_items_to_playlists(results, user_id):
     final_result = []
-    for ixd, item in enumerate(results['items']):
+    for ixd, item in enumerate(results):
         if item['owner']['id'] == user_id:
             final_result.append(Playlist(
                 item['name'],

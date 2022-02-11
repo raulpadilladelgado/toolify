@@ -15,7 +15,7 @@ FAKE_PLAYLIST_DESCRIPTION = 'A simple description'
 FAKE_PLAYLIST_IMAGE_URI = 'A simple uri'
 
 
-class ListUserPlaylistsTest(unittest.TestCase):
+class TransformItemToPlaylistTest(unittest.TestCase):
     def test_show_playlists_when_all_are_user_owner(self):
         fake_playlists_list = {
             'items': [
