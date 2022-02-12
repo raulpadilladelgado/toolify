@@ -14,7 +14,8 @@ class SpotipyApi(SpotifyWrapper):
             chunks = self.__split_songs_list_by_chunks(items)
             for i in range(len(chunks)):
                 self.spotipy.playlist_add_items(playlist_id, chunks[i])
-        self.spotipy.playlist_add_items(playlist_id, items)
+        else:
+            self.spotipy.playlist_add_items(playlist_id, items)
 
     def delete_all_items(self, playlist_id):
         self.spotipy.playlist_replace_items(playlist_id, [])
