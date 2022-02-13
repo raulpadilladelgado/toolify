@@ -25,7 +25,7 @@ class SpotipyApi(SpotifyWrapper):
 
     def get_playlist_items(self, playlist_id):
         number_of_tracks_in_playlist = self.get_playlist_items_size(playlist_id)
-        items = self.__get_playlist_items_by_batch(number_of_tracks_in_playlist, playlist_id)
+        items = self.__get_playlist_items(number_of_tracks_in_playlist, playlist_id)
         return items
 
     def get_playlists(self):
@@ -36,7 +36,7 @@ class SpotipyApi(SpotifyWrapper):
         user_id = self.spotipy.current_user()
         return user_id['id']
 
-    def __get_playlist_items_by_batch(self, number_of_tracks_in_playlist, playlist_id):
+    def __get_playlist_items(self, number_of_tracks_in_playlist, playlist_id):
         if number_of_tracks_in_playlist > 100:
             result = []
             counter = 0
