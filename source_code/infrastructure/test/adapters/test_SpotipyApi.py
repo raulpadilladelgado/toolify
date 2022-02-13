@@ -35,10 +35,9 @@ class SpotipyApiTest(unittest.TestCase):
 
         self.spotipy_api.playlist_add_items(self.fake_playlist_id, fake_playlist_items)
 
-        calls = [call.playlist(''),
-                 call.playlist_add_items('', populate_fake_playlist_items_list([])),
+        expected_calls = [call.playlist_add_items('', populate_fake_playlist_items_list([])),
                  call.playlist_add_items('', populate_fake_playlist_items_list([]))]
-        self.spotify_client.assert_has_calls(calls)
+        self.spotify_client.playlist_add_items.assert_has_calls(expected_calls)
 
 
     def test_add_less_than_100_items_to_playlist(self):
@@ -53,9 +52,8 @@ class SpotipyApiTest(unittest.TestCase):
 
         self.spotipy_api.playlist_add_items(self.fake_playlist_id, fake_playlist_items)
 
-        calls = [call.playlist(''),
-                 call.playlist_add_items('', populate_fake_playlist_items_list([]))]
-        self.spotify_client.assert_has_calls(calls)
+        expected_calls = [call.playlist_add_items('', populate_fake_playlist_items_list([]))]
+        self.spotify_client.playlist_add_items.assert_has_calls(expected_calls)
 
 def populate_fake_playlist_items_list(fake_playlist_items):
     for _ in range(100):
