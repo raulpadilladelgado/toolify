@@ -2,7 +2,7 @@ from unittest import TestCase
 
 from typing import List
 
-from source_code.domain.main.value_objects.Song import Song
+from source_code.domain.main.valueobjects.Song import Song
 from source_code.application.main.services.FindDuplicatedSong import find_duplicated_song
 
 

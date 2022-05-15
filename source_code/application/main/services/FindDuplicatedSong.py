@@ -1,4 +1,4 @@
-from source_code.domain.main.value_objects.Song import Song
+from source_code.domain.main.valueobjects.Song import Song
 
 
 def find_duplicated_song(songs) -> list:

@@ -1,4 +1,4 @@
-from source_code.domain.main.value_objects.Playlist import Playlist
+from source_code.domain.main.valueobjects.Playlist import Playlist
 
 
 def transform_items_to_playlists(results, user_id):
