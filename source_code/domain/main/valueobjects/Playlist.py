@@ -1,5 +1,8 @@
+from typing import List
+
+
 class Playlist:
-    def __init__(self, name, spotify_id, description, image_uri, total_tracks):
+    def __init__(self, name: str, spotify_id: str, description: str, image_uri: str, total_tracks: int):
         self.__name = name
         self.__spotify_id = spotify_id
         self.__description = description
@@ -21,6 +24,11 @@ class Playlist:
     def get_total_tracks(self):
         return self.__total_tracks
 
-
-
-
+    def __eq__(self, o: object) -> bool:
+        if isinstance(o, Playlist):
+            return self.__name.__eq__(o.__name) \
+                   and self.__spotify_id == o.__spotify_id \
+                   and self.__description == o.__description \
+                   and self.__image_uri == o.__image_uri \
+                   and self.__total_tracks == o.__total_tracks
+        return False

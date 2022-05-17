@@ -1,0 +1,24 @@
+from source_code.domain.main.valueobjects.Playlist import Playlist
+from source_code.domain.main.valueobjects.Playlists import Playlists
+
+FAKE_PLAYLIST_NAME = 'PLAYLIST_NAME'
+
+FAKE_PLAYLIST_ID = 'PLAYLIST_ID'
+
+FAKE_PLAYLIST_DESCRIPTION = 'A simple description'
+
+FAKE_PLAYLIST_IMAGE_URI = 'A simple uri'
+
+
+def playlists() -> Playlists:
+    return Playlists(
+        [
+            Playlist(
+                FAKE_PLAYLIST_NAME,
+                FAKE_PLAYLIST_ID,
+                FAKE_PLAYLIST_DESCRIPTION,
+                FAKE_PLAYLIST_IMAGE_URI,
+                10
+            )
+        ]
+    )

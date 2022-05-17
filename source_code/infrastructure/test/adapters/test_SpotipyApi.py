@@ -1,13 +1,25 @@
 import unittest
 from unittest.mock import Mock, call
 
+from source_code.domain.main.valueobjects.Playlists import Playlists
+from source_code.domain.test.fixtures.PlaylistsFixtures import playlists
 from source_code.infrastructure.main.adapters.SpotipyApi import SpotipyApi
+from source_code.infrastructure.resources.samples.SampleSinglePlaylistFromSpotipy import sample_playlists
 
 
 class SpotipyApiTest(unittest.TestCase):
     spotify_client = Mock()
     spotipy_api: SpotipyApi = SpotipyApi(spotify_client)
     fake_playlist_id = ""
+
+    def test_get_playlist_for_a_user(self):
+        self.spotify_client.current_user_playlists = Mock(return_value=sample_playlists)
+        self.spotify_client.current_user = Mock(return_value='11172067860')
+
+        result: Playlists = self.spotipy_api.get_user_playlists()
+
+        expected_result = playlists()
+        self.assertEqual(expected_result, result)
 
     def test_get_playlist_items_size(self):
         playlist_info = {
