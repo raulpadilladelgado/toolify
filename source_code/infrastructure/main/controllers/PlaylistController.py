@@ -2,21 +2,26 @@ import spotipy
 from flask import render_template, request, url_for
 
 from source_code.application.main.usecases.ListUserPlaylists import ListUserPlaylists
-from source_code.application.main.usecases.ReorderPlaylistByReleaseDate import ReorderPlaylist
+from source_code.application.main.usecases.ReorderPlaylistByReleaseDate import ReorderPlaylistByReleaseDate
+from source_code.domain.main.valueobjects.Playlists import Playlists
 from source_code.infrastructure.main.adapters.SpotipyApi import SpotipyApi
-from source_code.infrastructure.main.controller.LoginController import LoginController
+from source_code.infrastructure.main.controllers.LoginController import LoginController
 
 
 def list_playlists():
     return render_template(
         "index.html",
-        playlists=ListUserPlaylists(SpotipyApi(get_spotify_client())).apply().playlist_items(),
+        playlists=(list_user_playlist_items().playlist_items()),
         order_playlists_url=url_for('order_playlists', _external=True)
     )
 
 
+def list_user_playlist_items() -> Playlists:
+    return ListUserPlaylists(SpotipyApi(get_spotify_client())).apply()
+
+
 def order_playlists():
-    ReorderPlaylist(SpotipyApi(get_spotify_client()), request.form['playlist']).apply()
+    ReorderPlaylistByReleaseDate(SpotipyApi(get_spotify_client()), request.form['playlist']).apply()
     return list_playlists()
 
 

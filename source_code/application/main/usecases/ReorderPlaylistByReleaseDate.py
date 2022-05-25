@@ -1,7 +1,7 @@
 from source_code.application.main.ports.SpotifyWrapper import SpotifyWrapper
 
 
-class ReorderPlaylist:
+class ReorderPlaylistByReleaseDate:
     def __init__(self, spotipy: SpotifyWrapper, playlist_id: str):
         self.spotipy = spotipy
         self.playlist_id = playlist_id

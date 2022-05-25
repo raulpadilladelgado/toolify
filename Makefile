@@ -13,9 +13,6 @@ WHITE:=			\033[1;37m
 LIGHT_VIOLET := \033[1;35m
 NO_COLOUR := 	\033[0m
 
-# Environment : { dev, staging, prod }
-ENV := dev
-
 PROJECT_NAME := 🎵 toolify 🎵
 
 MSG_SEPARATOR := "*********************************************************************"
@@ -36,14 +33,19 @@ help:
 ######################################################################
 install:
 	pip install -r requirements.txt
+	echo Requirements installed
+ifneq ("$(wildcard .env)","")
+	echo env file is already created
+else
 	cp .env-sample .env
-	echo Requirements installed, now you need to fill .env file created with the needed tokens
+	echo env file created, now you need to fill .env file created with the needed tokens
+endif
 
 test:
-	python3 -m unittest
+	python -m unittest
 
 run:
 	flask run
 
 run-with-gunicorn:
-	gunicorn --bind 0.0.0.0\:5000 source_code.infrastructure.app\:app
+	gunicorn --bind localhost:5000 source_code.infrastructure.app:app
