@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import List
 
 from source_code.application.main.ports.SpotifyWrapper import SpotifyWrapper
@@ -7,7 +9,7 @@ from source_code.domain.main.valueobjects.Song import Song
 from source_code.domain.main.valueobjects.Songs import Songs
 
 
-class SpotipyApi(SpotifyWrapper):
+class SpotifyWrapperWithSpotipyApi(SpotifyWrapper):
     __CHUNK_SIZE = 100
 
     def __init__(self, spotipy):
@@ -51,31 +53,35 @@ class SpotipyApi(SpotifyWrapper):
                               ), self.spotipy.playlist_items(playlist_id)['items'])))
 
     def get_user_playlists(self) -> Playlists:
+        playlists: Playlists = self.get_playlists_from_api_items()
+        return self.filter_playlists_items_by_user(playlists)
+
+    def get_playlists_from_api_items(self) -> Playlists:
         playlist_items = self.spotipy.current_user_playlists()['items']
-        playlist_items_filtered = self.__filter_playlists_items_by_user(playlist_items)
+        if len(playlist_items) <= 0:
+            return Playlists([])
         return Playlists(
             list(map(lambda playlist_item:
                      Playlist(playlist_item['name'],
                               playlist_item['id'],
+                              playlist_item['owner']['id'],
                               playlist_item['description'],
-                              playlist_item['images'][0]['url'] if playlist_item['images'] else "static/spotify-icon-removebg-preview.png",
+                              playlist_item['images'][0]['url'] if playlist_item[
+                                  'images'] else "static/spotify-icon-removebg-preview.png",
                               playlist_item['tracks']['total']
                               ),
-                     playlist_items_filtered
+                     playlist_items
                      )
                  )
         )
 
-    def __filter_playlists_items_by_user(self, playlist_items):
-        user = self.__get_user()
-        return list(filter(lambda playlist_item: playlist_item['owner']['id'] == user, playlist_items))
+    def filter_playlists_items_by_user(self, playlists: Playlists):
+        user = self.spotipy.current_user()['id']
+        return Playlists(list(filter(lambda playlist: playlist.get_user_id() == user, playlists.playlist_items())))
 
     def replace_items(self, playlist_id, songs):
         self.delete_all_items(playlist_id)
         self.playlist_add_items(playlist_id, songs.songs_ids())
-
-    def __get_user(self):
-        return self.spotipy.current_user()['id']
 
     def __split_songs_list_by_chunks(self, song_ids):
         return [song_ids[x:x + self.__CHUNK_SIZE] for x in range(0, len(song_ids), self.__CHUNK_SIZE)]

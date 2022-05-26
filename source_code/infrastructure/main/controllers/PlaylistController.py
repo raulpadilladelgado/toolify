@@ -4,7 +4,7 @@ from flask import render_template, request, url_for
 from source_code.application.main.usecases.ListUserPlaylists import ListUserPlaylists
 from source_code.application.main.usecases.ReorderPlaylistByReleaseDate import ReorderPlaylistByReleaseDate
 from source_code.domain.main.valueobjects.Playlists import Playlists
-from source_code.infrastructure.main.adapters.SpotipyApi import SpotipyApi
+from source_code.infrastructure.main.adapters.SpotifyWrapperWithSpotipyApi import SpotifyWrapperWithSpotipyApi
 from source_code.infrastructure.main.controllers.LoginController import LoginController
 
 
@@ -17,11 +17,11 @@ def list_playlists():
 
 
 def list_user_playlist_items() -> Playlists:
-    return ListUserPlaylists(SpotipyApi(get_spotify_client())).apply()
+    return ListUserPlaylists(SpotifyWrapperWithSpotipyApi(get_spotify_client())).apply()
 
 
 def order_playlists():
-    ReorderPlaylistByReleaseDate(SpotipyApi(get_spotify_client()), request.form['playlist']).apply()
+    ReorderPlaylistByReleaseDate(SpotifyWrapperWithSpotipyApi(get_spotify_client()), request.form['playlist']).apply()
     return list_playlists()
 
 

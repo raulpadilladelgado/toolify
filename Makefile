@@ -2,9 +2,6 @@ SHELL=./make-venv
 -include .env
 export
 
-# Get the absolute path to the running Makefile
-ROOT_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
-
 # Colours
 BLUE:=			\033[0;34m
 RED:=			\033[0;31m

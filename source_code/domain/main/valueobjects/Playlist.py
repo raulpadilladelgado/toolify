@@ -1,8 +1,6 @@
-from typing import List
-
-
 class Playlist:
-    def __init__(self, name: str, spotify_id: str, description: str, image_uri: str, total_tracks: int):
+    def __init__(self, name: str, spotify_id: str, user_id: str, description: str, image_uri: str, total_tracks: int):
+        self.__user_id = user_id
         self.__name = name
         self.__spotify_id = spotify_id
         self.__description = description
@@ -11,6 +9,9 @@ class Playlist:
 
     def get_name(self):
         return self.__name
+
+    def get_user_id(self) -> str:
+        return self.__user_id
 
     def get_spotify_id(self):
         return self.__spotify_id
