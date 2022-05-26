@@ -25,3 +25,7 @@ def playlists() -> Playlists:
             )
         ]
     )
+
+
+def no_playlists() -> Playlists:
+    return Playlists([])

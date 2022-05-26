@@ -57,7 +57,7 @@ class SpotifyWrapperWithSpotipyApi(SpotifyWrapper):
         return self.filter_playlists_items_by_user(playlists)
 
     def get_playlists_from_api_items(self) -> Playlists:
-        playlist_items = self.spotipy.current_user_playlists()['items']
+        playlist_items: List = self.spotipy.current_user_playlists()['items']
         if len(playlist_items) <= 0:
             return Playlists([])
         return Playlists(
@@ -76,7 +76,7 @@ class SpotifyWrapperWithSpotipyApi(SpotifyWrapper):
         )
 
     def filter_playlists_items_by_user(self, playlists: Playlists):
-        user = self.spotipy.current_user()['id']
+        user: str = self.spotipy.current_user()['id']
         return Playlists(list(filter(lambda playlist: playlist.get_user_id() == user, playlists.playlist_items())))
 
     def replace_items(self, playlist_id, songs):

@@ -3,8 +3,8 @@ from source_code.domain.main.valueobjects.Playlists import Playlists
 
 
 class ListUserPlaylists:
-    def __init__(self, spotipy: SpotifyWrapper):
-        self.spotipy = spotipy
+    def __init__(self, spotify_wrapper: SpotifyWrapper):
+        self.spotify_wrapper = spotify_wrapper
 
     def apply(self) -> Playlists:
-        return self.spotipy.get_user_playlists()
+        return self.spotify_wrapper.get_user_playlists()
