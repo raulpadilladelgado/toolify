@@ -16,11 +16,9 @@ class SpotipyApi(SpotifyWrapper):
 
     def playlist_add_items(self, playlist_id: str, items: List[str]):
         number_of_tracks_in_playlist = len(items)
-        print(f'Tracks in playlist: {number_of_tracks_in_playlist}')
         if number_of_tracks_in_playlist > 100:
             chunks = self.__split_songs_list_by_chunks(items)
             for i in range(len(chunks)):
-                print(f'Inserting {len(chunks[i])} songs')
                 self.spotipy.playlist_add_items(playlist_id, chunks[i])
         else:
             self.spotipy.playlist_add_items(playlist_id, items)
@@ -29,9 +27,7 @@ class SpotipyApi(SpotifyWrapper):
         self.spotipy.playlist_replace_items(playlist_id, [])
 
     def get_playlist_items_size(self, playlist_id) -> int:
-        playlist = self.spotipy.playlist(playlist_id)
-        print(playlist)
-        return playlist['tracks']['total']
+        return self.spotipy.playlist(playlist_id)['tracks']['total']
 
     def get_playlist_items(self, playlist_id) -> Songs:
         number_of_tracks_in_playlist = self.get_playlist_items_size(playlist_id)
