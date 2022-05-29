@@ -39,7 +39,13 @@ else
 endif
 
 test:
+	echo Running test suite...
+	echo
 	python -m unittest
+	echo
+	echo Analyzing code with mypy...
+	echo
+	mypy source_code/
 
 run:
 	flask run
