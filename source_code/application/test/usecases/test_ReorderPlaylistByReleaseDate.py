@@ -9,11 +9,9 @@ from source_code.domain.main.valueobjects.Songs import Songs
 class TestReorderPlaylistByReleaseDate(TestCase):
     def test_reorder_playlist(self):
         spotify_wrapper = Mock()
-        spotify_wrapper.get_playlist_items = Mock(return_value=songs_unordered())
-
+        spotify_wrapper.get_songs_by = Mock(return_value=songs_unordered())
         ReorderPlaylistByReleaseDate(spotify_wrapper, "PLAYLIST_ID").apply()
-
-        spotify_wrapper.replace_items.assert_called_with("PLAYLIST_ID", songs_ordered())
+        spotify_wrapper.replace_songs_by.assert_called_with("PLAYLIST_ID", songs_ordered())
 
 
 def songs_unordered():

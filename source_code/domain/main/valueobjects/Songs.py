@@ -13,7 +13,7 @@ class Songs:
     def songs_ids(self) -> List[str]:
         return list(map(lambda song: song.get_spotify_id(), self.__songs))
 
-    def reorder_by_release_date(self):
+    def reorder_by_release_date(self) -> 'Songs':
         self.__songs.sort(
             key=lambda x: x.get_release_date(), reverse=True
         )

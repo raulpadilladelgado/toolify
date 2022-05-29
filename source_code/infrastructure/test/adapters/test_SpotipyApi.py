@@ -36,7 +36,7 @@ class TestSpotipyApiShould(unittest.TestCase):
             }
         }
         self.spotify_client.playlist = Mock(return_value=playlist_info)
-        playlist_items_size = self.spotify_wrapper.get_playlist_items_size(self.fake_playlist_id)
+        playlist_items_size = self.spotify_wrapper.get_count_of_songs_by(self.fake_playlist_id)
         self.assertEqual(10, playlist_items_size)
 
     def test_add_more_than_100_items_to_playlist(self):
@@ -47,7 +47,7 @@ class TestSpotipyApiShould(unittest.TestCase):
             }
         }
         self.spotify_client.playlist = Mock(return_value=playlist_info)
-        self.spotify_wrapper.playlist_add_items(self.fake_playlist_id, fake_playlist_items)
+        self.spotify_wrapper.playlist_add_songs_by(self.fake_playlist_id, fake_playlist_items)
         expected_calls = [call.playlist_add_items('', populate_fake_playlist_song_ids_list(100)),
                           call.playlist_add_items('', populate_fake_playlist_song_ids_list(100))]
         self.spotify_client.playlist_add_items.assert_has_calls(expected_calls)
@@ -60,7 +60,7 @@ class TestSpotipyApiShould(unittest.TestCase):
             }
         }
         self.spotify_client.playlist = Mock(return_value=playlist_info)
-        self.spotify_wrapper.playlist_add_items(self.fake_playlist_id, fake_playlist_items)
+        self.spotify_wrapper.playlist_add_songs_by(self.fake_playlist_id, fake_playlist_items)
         expected_calls = [call.playlist_add_items('', populate_fake_playlist_song_ids_list(100))]
         self.spotify_client.playlist_add_items.assert_has_calls(expected_calls)
 
@@ -72,7 +72,7 @@ class TestSpotipyApiShould(unittest.TestCase):
         }
         self.spotify_client.playlist = Mock(return_value=playlist_info)
         self.spotify_client.playlist_items = Mock(return_value=populate_fake_playlist_items_list(100))
-        result = self.spotify_wrapper.get_playlist_items(self.fake_playlist_id)
+        result = self.spotify_wrapper.get_songs_by(self.fake_playlist_id)
         expected_result = populate_songs_list(100)
         self.assertEqual(result, expected_result)
 
@@ -84,7 +84,7 @@ class TestSpotipyApiShould(unittest.TestCase):
         }
         self.spotify_client.playlist = Mock(return_value=playlist_info)
         self.spotify_client.playlist_items = Mock(return_value=populate_fake_playlist_items_list(100))
-        result = self.spotify_wrapper.get_playlist_items(self.fake_playlist_id)
+        result = self.spotify_wrapper.get_songs_by(self.fake_playlist_id)
         expected_result = populate_songs_list(200)
         self.assertEqual(result, expected_result)
 

@@ -6,20 +6,20 @@ class SpotifyWrapper:
     def __init__(self):
         ...
 
-    def playlist_add_items(self, playlist_id, items):
+    def playlist_add_songs_by(self, playlist_id: str, songs_ids):
         ...
 
-    def delete_all_items(self, playlist_id):
+    def delete_all_songs_by(self, playlist_id: str):
         ...
 
-    def get_playlist_items_size(self, playlist_id):
+    def get_count_of_songs_by(self, playlist_id: str):
         ...
 
-    def get_playlist_items(self, playlist_id) -> Songs:
+    def get_songs_by(self, playlist_id: str) -> Songs:
         ...
 
     def get_user_playlists(self) -> Playlists:
         ...
 
-    def replace_items(self, playlist_id: str, songs: Songs):
+    def replace_songs_by(self, playlist_id: str, songs: Songs):
         ...

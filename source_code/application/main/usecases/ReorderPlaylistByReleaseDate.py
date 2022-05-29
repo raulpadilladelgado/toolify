@@ -1,4 +1,5 @@
 from source_code.application.main.ports.SpotifyWrapper import SpotifyWrapper
+from source_code.domain.main.valueobjects.Songs import Songs
 
 
 class ReorderPlaylistByReleaseDate:
@@ -7,6 +8,5 @@ class ReorderPlaylistByReleaseDate:
         self.playlist_id = playlist_id
 
     def apply(self):
-        songs = self.spotipy.get_playlist_items(self.playlist_id)
-        songs = songs.reorder_by_release_date()
-        self.spotipy.replace_items(self.playlist_id, songs)
+        songs: Songs = self.spotipy.get_songs_by(self.playlist_id).reorder_by_release_date()
+        self.spotipy.replace_songs_by(self.playlist_id, songs)
