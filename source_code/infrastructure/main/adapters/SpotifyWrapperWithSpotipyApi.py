@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import List
 
+from flask import url_for
+
 from source_code.application.main.ports.SpotifyWrapper import SpotifyWrapper
 from source_code.domain.main.valueobjects.Playlist import Playlist
 from source_code.domain.main.valueobjects.Playlists import Playlists
@@ -75,7 +77,7 @@ class SpotifyWrapperWithSpotipyApi(SpotifyWrapper):
                               playlist_item['owner']['id'],
                               playlist_item['description'],
                               playlist_item['images'][0]['url'] if playlist_item[
-                                  'images'] else "static/spotify-icon-removebg-preview.png",
+                                  'images'] else url_for('static', filename='images/spotify-icon-removebg-preview.png'),
                               playlist_item['tracks']['total']
                               ),
                      playlist_items
