@@ -6,7 +6,7 @@ from source_code.infrastructure.main.controllers import PlaylistController
 
 
 class TestPlaylistControllerShould(TestCase):
-    def test_list_playlist_for_the_user(self):
+    def test_list_playlist_for_the_user(self) -> None:
         with mock.patch.object(PlaylistController, 'list_user_playlist_items', new=playlists):
             response = app.test_client().get('/list')
             self.assertEqual(
@@ -14,7 +14,7 @@ class TestPlaylistControllerShould(TestCase):
                 response.data.decode("utf-8").replace("\n", "").replace(" ", ""),
             )
 
-    def test_show_nothing_when_no_playlists(self):
+    def test_show_nothing_when_no_playlists(self) -> None:
         with mock.patch.object(PlaylistController, 'list_user_playlist_items', new=no_playlists):
             response = app.test_client().get('/list')
             self.assertEqual(

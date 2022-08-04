@@ -14,7 +14,7 @@ FAKE_PLAYLIST_IMAGE_URI = 'A simple uri'
 
 
 class TestListUserPlaylistsShould(unittest.TestCase):
-    def test_show_playlists(self):
+    def test_show_playlists(self) -> None:
         fake_playlists = playlists()
         spotipy_wrapper = Mock()
         spotipy_wrapper.get_user_playlists = Mock(return_value=fake_playlists)

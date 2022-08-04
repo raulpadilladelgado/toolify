@@ -1,5 +1,5 @@
 import unittest
-from typing import List
+from typing import List, Dict, Union, Mapping
 from unittest.mock import Mock, call
 
 from source_code.domain.main.valueobjects.Playlists import Playlists
@@ -17,19 +17,19 @@ class TestSpotipyApiShould(unittest.TestCase):
     spotify_wrapper: SpotifyWrapperWithSpotipyApi = SpotifyWrapperWithSpotipyApi(spotify_client)
     fake_playlist_id = ""
 
-    def test_get_playlist_when_the_user_is_owner(self):
+    def test_get_playlist_when_the_user_is_owner(self) -> None:
         self.spotify_client.current_user_playlists = Mock(return_value=sample_playlists)
         self.spotify_client.current_user = Mock(return_value=sample_single_user)
         result: Playlists = self.spotify_wrapper.get_user_playlists()
         self.assertEqual(playlists(), result)
 
-    def test_cannot_get_playlist_when_the_user_is_not_owner(self):
+    def test_cannot_get_playlist_when_the_user_is_not_owner(self) -> None:
         self.spotify_client.current_user_playlists = Mock(return_value=sample_playlists)
         self.spotify_client.current_user = Mock(return_value=sample_single_user_no_owner)
         result: Playlists = self.spotify_wrapper.get_user_playlists()
         self.assertEqual(Playlists([]), result)
 
-    def test_get_playlist_items_size(self):
+    def test_get_playlist_items_size(self) -> None:
         playlist_info = {
             'tracks': {
                 'total': 10
@@ -39,7 +39,7 @@ class TestSpotipyApiShould(unittest.TestCase):
         playlist_items_size = self.spotify_wrapper.get_count_of_songs_by(self.fake_playlist_id)
         self.assertEqual(10, playlist_items_size)
 
-    def test_add_more_than_100_items_to_playlist(self):
+    def test_add_more_than_100_items_to_playlist(self) -> None:
         fake_playlist_items = populate_fake_playlist_song_ids_list(200)
         playlist_info = {
             'tracks': {
@@ -52,7 +52,7 @@ class TestSpotipyApiShould(unittest.TestCase):
                           call.playlist_add_items('', populate_fake_playlist_song_ids_list(100))]
         self.spotify_client.playlist_add_items.assert_has_calls(expected_calls)
 
-    def test_add_less_than_100_items_to_playlist(self):
+    def test_add_less_than_100_items_to_playlist(self) -> None:
         fake_playlist_items = populate_fake_playlist_song_ids_list(100)
         playlist_info = {
             'tracks': {
@@ -64,7 +64,7 @@ class TestSpotipyApiShould(unittest.TestCase):
         expected_calls = [call.playlist_add_items('', populate_fake_playlist_song_ids_list(100))]
         self.spotify_client.playlist_add_items.assert_has_calls(expected_calls)
 
-    def test_get_less_than_100_items(self):
+    def test_get_less_than_100_items(self) -> None:
         playlist_info = {
             'tracks': {
                 'total': 100
@@ -76,7 +76,7 @@ class TestSpotipyApiShould(unittest.TestCase):
         expected_result = populate_songs_list(100)
         self.assertEqual(result, expected_result)
 
-    def test_get_more_than_100_items(self):
+    def test_get_more_than_100_items(self) -> None:
         playlist_info = {
             'tracks': {
                 'total': 200
@@ -89,7 +89,7 @@ class TestSpotipyApiShould(unittest.TestCase):
         self.assertEqual(result, expected_result)
 
 
-def populate_fake_playlist_items_list(size: int):
+def populate_fake_playlist_items_list(size: int) -> Mapping[str, object]:
     fake_playlist_items = []
     for _ in range(size):
         fake_playlist_items.append({
@@ -125,7 +125,7 @@ def populate_song_list(size: int) -> List[Song]:
     return fake_playlist_items
 
 
-def populate_fake_playlist_song_ids_list(size: int):
+def populate_fake_playlist_song_ids_list(size: int) -> List[str]:
     fake_playlist_items = []
     for _ in range(size):
         fake_playlist_items.append("abc1234")

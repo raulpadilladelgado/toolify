@@ -8,7 +8,7 @@ from source_code.infrastructure.main.adapters.SpotifyWrapperWithSpotipyApi impor
 from source_code.infrastructure.main.controllers.LoginController import LoginController
 
 
-def list_playlists():
+def list_playlists() -> str:
     return render_template(
         "index.html",
         playlists=(list_user_playlist_items().playlist_items()),

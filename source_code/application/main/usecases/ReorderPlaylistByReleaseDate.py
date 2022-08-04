@@ -7,6 +7,6 @@ class ReorderPlaylistByReleaseDate:
         self.spotipy = spotipy
         self.playlist_id = playlist_id
 
-    def apply(self):
+    def apply(self) -> None:
         songs: Songs = self.spotipy.get_songs_by(self.playlist_id).reorder_by_release_date()
         self.spotipy.replace_songs_by(self.playlist_id, songs)
