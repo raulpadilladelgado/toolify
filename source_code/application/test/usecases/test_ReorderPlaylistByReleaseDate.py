@@ -15,7 +15,7 @@ class TestReorderPlaylistByReleaseDate(TestCase):
 
 
 def songs_unordered() -> Songs:
-    return Songs(
+    return Songs.create(
         [
             Song("aguacate", "1111", "2021-10-14"),
             Song("aguacate", "2222", "2021-10-13"),
@@ -26,7 +26,7 @@ def songs_unordered() -> Songs:
 
 
 def songs_ordered() -> Songs:
-    return Songs(
+    return Songs.create(
         [
             Song("aguacate", "4444", "2021-10-15"),
             Song("aguacate", "1111", "2021-10-14"),

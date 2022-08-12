@@ -14,7 +14,7 @@ class TestSongs(TestCase):
 
 
 def songs_unordered() -> Songs:
-    return Songs(
+    return Songs.create(
         [
             Song("aguacate", "1111", "2021-10-14"),
             Song("aguacate", "2222", "2021-10-13"),

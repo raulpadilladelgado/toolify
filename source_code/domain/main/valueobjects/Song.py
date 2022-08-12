@@ -16,5 +16,6 @@ class Song:
     def __eq__(self, o: object) -> bool:
         if isinstance(o, Song):
             return self.__name == o.__name \
-                   and self.__spotify_id == o.__spotify_id
+                   and self.__spotify_id == o.__spotify_id \
+                   and self.__release_date == o.__release_date
         return False

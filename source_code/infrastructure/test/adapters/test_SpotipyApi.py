@@ -1,5 +1,5 @@
 import unittest
-from typing import List, Dict, Union, Mapping
+from typing import List, Mapping
 from unittest.mock import Mock, call
 
 from source_code.domain.main.valueobjects.Playlists import Playlists
@@ -111,7 +111,7 @@ def populate_fake_playlist_items_list(size: int) -> Mapping[str, object]:
 
 
 def populate_songs_list(size: int) -> Songs:
-    return Songs(populate_song_list(size))
+    return Songs.create(populate_song_list(size))
 
 
 def populate_song_list(size: int) -> List[Song]:

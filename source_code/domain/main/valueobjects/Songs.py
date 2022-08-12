@@ -1,10 +1,22 @@
+from __future__ import annotations
+
 from typing import List
 
 from source_code.domain.main.valueobjects.Song import Song
 
 
-class Songs:
-    def __init__(self, songs: List[Song]):
+class Songs(object):
+    __create_key = object()
+
+    @classmethod
+    def create(cls, songs: List[Song]) -> Songs:
+        if len(songs) == 0:
+            raise RuntimeError("Failed to create Songs object")
+        return Songs(cls.__create_key, songs)
+
+    def __init__(self, create_key: object, songs: List[Song]) -> None:
+        assert (create_key == Songs.__create_key), \
+            "Songs objects must be created using Songs.create"
         self.__songs = songs
 
     def songs(self) -> List[Song]:
@@ -17,7 +29,7 @@ class Songs:
         self.__songs.sort(
             key=lambda x: x.get_release_date(), reverse=True
         )
-        return Songs(self.__songs)
+        return Songs.create(self.__songs)
 
     def __eq__(self, o: object) -> bool:
         if isinstance(o, Songs) and len(o.__songs) == len(self.__songs):

@@ -5,6 +5,7 @@ from typing import List
 from flask import url_for
 
 from source_code.application.main.ports.SpotifyWrapper import SpotifyWrapper
+from source_code.domain.main.valueobjects.DuplicatedSongs import DuplicatedSongs
 from source_code.domain.main.valueobjects.Playlist import Playlist
 from source_code.domain.main.valueobjects.Playlists import Playlists
 from source_code.domain.main.valueobjects.Song import Song
@@ -38,16 +39,16 @@ class SpotifyWrapperWithSpotipyApi(SpotifyWrapper):
         number_of_tracks_in_playlist: int = self.get_count_of_songs_by(playlist_id)
         return \
             self.get_playlists_100_by_100(number_of_tracks_in_playlist, playlist_id) \
-            if number_of_tracks_in_playlist > 100 \
-            else self.get_playlists(playlist_id)
+                if number_of_tracks_in_playlist > 100 \
+                else self.get_playlists(playlist_id)
 
     def get_playlists(self, playlist_id: str) -> Songs:
-        return Songs(list(map(lambda x:
-                              Song(
-                                  x['track']['name'],
-                                  x['track']['id'],
-                                  x['track']['album']['release_date']
-                              ), self.spotipy.playlist_items(playlist_id)['items'])))
+        return Songs.create(list(map(lambda x:
+                                     Song(
+                                         x['track']['name'],
+                                         x['track']['id'],
+                                         x['track']['album']['release_date']
+                                     ), self.spotipy.playlist_items(playlist_id)['items'])))
 
     def get_playlists_100_by_100(self, number_of_tracks_in_playlist: int, playlist_id: str) -> Songs:
         result = []
@@ -55,12 +56,12 @@ class SpotifyWrapperWithSpotipyApi(SpotifyWrapper):
         while counter < number_of_tracks_in_playlist:
             result += self.spotipy.playlist_items(playlist_id, offset=counter)['items']
             counter += 100
-        return Songs(list(map(lambda x:
-                              Song(
-                                  x['track']['name'],
-                                  x['track']['id'],
-                                  x['track']['album']['release_date']
-                              ), result)))
+        return Songs.create(list(map(lambda x:
+                                     Song(
+                                         x['track']['name'],
+                                         x['track']['id'],
+                                         x['track']['album']['release_date']
+                                     ), result)))
 
     def get_user_playlists(self) -> Playlists:
         playlists: Playlists = self.get_playlists_from_api_items()
@@ -95,3 +96,6 @@ class SpotifyWrapperWithSpotipyApi(SpotifyWrapper):
 
     def __split_songs_list_by_chunks(self, song_ids: List[str]) -> List[List[str]]:
         return [song_ids[x:x + self.__CHUNK_SIZE] for x in range(0, len(song_ids), self.__CHUNK_SIZE)]
+
+    def remove_specific_song_occurrences(self, playlist_id: str, duplicated_songs: DuplicatedSongs) -> None:
+        pass
