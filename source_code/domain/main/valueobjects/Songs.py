@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import List
 
+from source_code.domain.main.exceptions.SongsCreationError import SongsCreationError
 from source_code.domain.main.valueobjects.Song import Song
 
 
@@ -11,7 +12,7 @@ class Songs(object):
     @classmethod
     def create(cls, songs: List[Song]) -> Songs:
         if len(songs) == 0:
-            raise RuntimeError("Failed to create Songs object")
+            raise SongsCreationError("At least one song is needed to build songs")
         return Songs(cls.__create_key, songs)
 
     def __init__(self, create_key: object, songs: List[Song]) -> None:
