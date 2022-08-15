@@ -45,7 +45,7 @@ test:
 	echo
 	echo Analyzing code with mypy...
 	echo
-	mypy source_code/
+	mypy source_code/ --strict
 
 run:
 	flask run
