@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import List
+from typing import List, Optional
 
 from source_code.domain.main.valueobjects.DuplicatedSong import DuplicatedSong
 from source_code.domain.main.valueobjects.Song import Song
@@ -9,14 +9,17 @@ from source_code.domain.main.valueobjects.Songs import Songs
 
 class DuplicatedSongs(object):
     @classmethod
-    def of(cls, songs: Songs) -> DuplicatedSongs:
-        return DuplicatedSongs(find_duplicated_songs(songs))
+    def of(cls, songs: Songs) -> Optional[DuplicatedSongs]:
+        duplicated_songs = find_duplicated_songs(songs)
+        if duplicated_songs is None:
+            return None
+        return DuplicatedSongs(duplicated_songs)
 
     def __init__(self, songs: List[DuplicatedSong]) -> None:
         self.__songs = songs
 
-    def has_duplicates(self) -> bool:
-        return len(self.__songs) > 0
+    def songs(self) -> List[DuplicatedSong]:
+        return self.__songs
 
     def __eq__(self, o: object) -> bool:
         if isinstance(o, DuplicatedSongs) and len(o.__songs) == len(self.__songs):

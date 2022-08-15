@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import List
+from typing import List, Dict
 
 from flask import url_for
 
@@ -13,7 +13,7 @@ from source_code.domain.main.valueobjects.Songs import Songs
 from spotipy import Spotify
 
 
-class SpotifyWrapperWithSpotipyApi(SpotifyWrapper):
+class SpotifyWrapperWithSpotipy(SpotifyWrapper):
     __CHUNK_SIZE = 100
 
     def __init__(self, spotipy: Spotify):
@@ -98,4 +98,13 @@ class SpotifyWrapperWithSpotipyApi(SpotifyWrapper):
         return [song_ids[x:x + self.__CHUNK_SIZE] for x in range(0, len(song_ids), self.__CHUNK_SIZE)]
 
     def remove_specific_song_occurrences(self, playlist_id: str, duplicated_songs: DuplicatedSongs) -> None:
-        pass
+        self.spotipy.playlist_remove_specific_occurrences_of_items(playlist_id, to_items(duplicated_songs))
+
+
+def to_items(duplicated_songs: DuplicatedSongs) -> List[Dict[str, str | List[int]]]:
+    items: List[Dict[str, str | List[int]]] = []
+    for duplicated_song in duplicated_songs.songs():
+        items.append(
+            {"uri": duplicated_song.spotify_id(), "positions": duplicated_song.positions()}
+        )
+    return items
