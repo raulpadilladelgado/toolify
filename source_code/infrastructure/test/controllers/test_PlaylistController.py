@@ -17,6 +17,7 @@ class TestPlaylistControllerShould(TestCase):
     def test_show_nothing_when_no_playlists(self) -> None:
         with mock.patch.object(PlaylistController, 'list_user_playlist_items', new=no_playlists):
             response = app.test_client().get('/list')
+            self.maxDiff = None
             self.assertEqual(
                 expected_response_when_playlists_not_available(),
                 response.data.decode("utf-8").replace("\n", "").replace(" ", "")
