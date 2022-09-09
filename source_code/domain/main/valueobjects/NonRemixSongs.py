@@ -8,13 +8,13 @@ from source_code.domain.main.valueobjects.Song import Song
 from source_code.domain.main.valueobjects.Songs import Songs
 
 
-class RemixSongs(object):
+class NonRemixSongs(object):
     @classmethod
-    def of(cls, songs: Songs) -> Optional[RemixSongs]:
+    def of(cls, songs: Songs) -> Optional[NonRemixSongs]:
         remix_songs = find_non_remix_songs(songs)
         if remix_songs is None:
             return None
-        return RemixSongs(remix_songs)
+        return NonRemixSongs(remix_songs)
 
     def __init__(self, songs: List[NonRemixSong]) -> None:
         self.__songs = songs
@@ -26,7 +26,7 @@ class RemixSongs(object):
         return list([song.spotify_id() for song in self.__songs])
 
     def __eq__(self, o: object) -> bool:
-        if isinstance(o, RemixSongs) and len(o.__songs) == len(self.__songs):
+        if isinstance(o, NonRemixSongs) and len(o.__songs) == len(self.__songs):
             return o.__songs == self.__songs
         return False
 

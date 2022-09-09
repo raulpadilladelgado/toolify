@@ -1,7 +1,7 @@
 from typing import List
 
 from source_code.domain.main.valueobjects.DuplicatedSongs import DuplicatedSongs
-from source_code.domain.main.valueobjects.NonRemixSongs import RemixSongs
+from source_code.domain.main.valueobjects.NonRemixSongs import NonRemixSongs
 from source_code.domain.main.valueobjects.Playlists import Playlists
 from source_code.domain.main.valueobjects.Songs import Songs
 
@@ -25,5 +25,5 @@ class SpotifyWrapper:
     def remove_specific_song_occurrences(self, playlist_id: str, duplicated_songs: DuplicatedSongs) -> None:
         ...
 
-    def remove_song_occurrences(self, playlist_id: str, remix_songs: RemixSongs) -> None:
+    def remove_song_occurrences(self, playlist_id: str, remix_songs: NonRemixSongs) -> None:
         ...

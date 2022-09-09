@@ -59,6 +59,7 @@
 
             http.onreadystatechange = function () {
                 if (http.readyState === 4 && http.status === 200) {
+                    window.location.replace('{{ list_playlists_url }}');
                     alert("PLAYLIST WAS ORDERED");
                 }
             }
@@ -79,6 +80,7 @@
 
             http.onreadystatechange = function () {
                 if (http.readyState === 4 && http.status === 200) {
+                    window.location.replace('{{ list_playlists_url }}');
                     alert("DUPLICATED SONGS WERE REMOVED FROM PLAYLIST");
                 }
             }

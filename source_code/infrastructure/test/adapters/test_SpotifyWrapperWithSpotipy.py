@@ -2,12 +2,12 @@ import unittest
 from typing import List, Mapping
 from unittest.mock import Mock, call
 
-from source_code.domain.main.valueobjects.DuplicatedSong import DuplicatedSong
-from source_code.domain.main.valueobjects.DuplicatedSongs import DuplicatedSongs
+from source_code.domain.fixtures.DuplicatedSongsFixtures import some_duplicated_songs
+from source_code.domain.fixtures.PlaylistsFixtures import playlists
+from source_code.domain.fixtures.SongsFixtures import a_song
 from source_code.domain.main.valueobjects.Playlists import Playlists
 from source_code.domain.main.valueobjects.Song import Song
 from source_code.domain.main.valueobjects.Songs import Songs
-from source_code.domain.test.fixtures.PlaylistsFixtures import playlists
 from source_code.infrastructure.main.adapters.SpotifyWrapperWithSpotipy import SpotifyWrapperWithSpotipy
 from source_code.infrastructure.resources.samples.SampleSinglePlaylistFromSpotipy import sample_playlists
 from source_code.infrastructure.resources.samples.SampleSingleUserFromSpotipy import sample_single_user, \
@@ -134,12 +134,7 @@ def populate_songs_list(size: int) -> Songs:
 def populate_song_list(size: int) -> List[Song]:
     fake_playlist_items = []
     for _ in range(size):
-        fake_playlist_items.append(Song(
-            "someName",
-            "abc1234",
-            "",
-            ["artist_id"]
-        ))
+        fake_playlist_items.append(a_song())
     return fake_playlist_items
 
 
@@ -148,11 +143,3 @@ def populate_fake_playlist_song_ids_list(size: int) -> List[str]:
     for _ in range(size):
         fake_playlist_items.append("abc1234")
     return fake_playlist_items
-
-
-def some_duplicated_songs() -> DuplicatedSongs:
-    return DuplicatedSongs(
-        [
-            DuplicatedSong("como sea", "1234", "date", [3, 4])
-        ]
-    )

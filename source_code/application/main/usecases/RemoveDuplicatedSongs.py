@@ -1,9 +1,7 @@
-from typing import List, Optional
+from typing import Optional
 
 from source_code.application.main.ports.SpotifyWrapper import SpotifyWrapper
-from source_code.domain.main.valueobjects.DuplicatedSong import DuplicatedSong
 from source_code.domain.main.valueobjects.DuplicatedSongs import DuplicatedSongs
-from source_code.domain.main.valueobjects.Song import Song
 from source_code.domain.main.valueobjects.Songs import Songs
 
 
