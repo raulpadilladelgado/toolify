@@ -36,11 +36,11 @@ class TestRemoveDuplicatedSongsShould(unittest.TestCase):
 def some_songs_with_duplicates() -> Songs:
     return Songs.create(
         [
-            Song("aguacate", "4561", "date"),
-            Song("como sea", "1234", "date"),
-            Song("aguacate xD", "7894", "date"),
-            Song("como sea", "1234", "date"),
-            Song("como sea", "1234", "date")
+            Song("aguacate", "4561", "date", ["artist_id"]),
+            Song("como sea", "1234", "date", ["artist_id"]),
+            Song("aguacate xD", "7894", "date", ["artist_id"]),
+            Song("como sea", "1234", "date", ["artist_id"]),
+            Song("como sea", "1234", "date", ["artist_id"])
         ]
     )
 
@@ -48,8 +48,8 @@ def some_songs_with_duplicates() -> Songs:
 def some_songs_without_duplicatates() -> Songs:
     return Songs.create(
         [
-            Song("aguacate", "4561", "date"),
-            Song("como sea", "1234", "date"),
-            Song("aguacate xD", "7894", "date"),
+            Song("aguacate", "4561", "date", ["artist_id"]),
+            Song("como sea", "1234", "date", ["artist_id"]),
+            Song("aguacate xD", "7894", "date", ["artist_id"]),
         ]
     )

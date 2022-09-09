@@ -17,10 +17,10 @@ class TestReorderPlaylistByReleaseDate(TestCase):
 def songs_unordered() -> Songs:
     return Songs.create(
         [
-            Song("aguacate", "1111", "2021-10-14"),
-            Song("aguacate", "2222", "2021-10-13"),
-            Song("aguacate", "3333", "2021-10-10"),
-            Song("aguacate", "4444", "2021-10-15")
+            Song("aguacate", "1111", "2021-10-14", ["artist_id"]),
+            Song("aguacate", "2222", "2021-10-13", ["artist_id"]),
+            Song("aguacate", "3333", "2021-10-10", ["artist_id"]),
+            Song("aguacate", "4444", "2021-10-15", ["artist_id"])
         ]
     )
 
@@ -28,10 +28,10 @@ def songs_unordered() -> Songs:
 def songs_ordered() -> Songs:
     return Songs.create(
         [
-            Song("aguacate", "4444", "2021-10-15"),
-            Song("aguacate", "1111", "2021-10-14"),
-            Song("aguacate", "2222", "2021-10-13"),
-            Song("aguacate", "3333", "2021-10-10"),
+            Song("aguacate", "4444", "2021-10-15", ["artist_id"]),
+            Song("aguacate", "1111", "2021-10-14", ["artist_id"]),
+            Song("aguacate", "2222", "2021-10-13", ["artist_id"]),
+            Song("aguacate", "3333", "2021-10-10", ["artist_id"]),
 
         ]
     )

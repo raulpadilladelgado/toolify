@@ -1,6 +1,7 @@
 import os
 
 from flask import Flask
+
 from source_code.infrastructure.main.controllers import PlaylistController, LoginController
 
 app = Flask(__name__,static_folder="../../static", template_folder="../../static/templates")

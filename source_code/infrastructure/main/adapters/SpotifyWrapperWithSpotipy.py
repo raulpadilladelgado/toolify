@@ -6,6 +6,7 @@ from flask import url_for
 
 from source_code.application.main.ports.SpotifyWrapper import SpotifyWrapper
 from source_code.domain.main.valueobjects.DuplicatedSongs import DuplicatedSongs
+from source_code.domain.main.valueobjects.NonRemixSongs import RemixSongs
 from source_code.domain.main.valueobjects.Playlist import Playlist
 from source_code.domain.main.valueobjects.Playlists import Playlists
 from source_code.domain.main.valueobjects.Song import Song
@@ -47,7 +48,8 @@ class SpotifyWrapperWithSpotipy(SpotifyWrapper):
                                      Song(
                                          x['track']['name'],
                                          x['track']['id'],
-                                         x['track']['album']['release_date']
+                                         x['track']['album']['release_date'],
+                                         list([artist['id'] for artist in x['track']['artists']])
                                      ), self.spotipy.playlist_items(playlist_id)['items'])))
 
     def get_playlists_100_by_100(self, number_of_tracks_in_playlist: int, playlist_id: str) -> Songs:
@@ -60,7 +62,8 @@ class SpotifyWrapperWithSpotipy(SpotifyWrapper):
                                      Song(
                                          x['track']['name'],
                                          x['track']['id'],
-                                         x['track']['album']['release_date']
+                                         x['track']['album']['release_date'],
+                                         list([artist['id'] for artist in x['track']['artists']])
                                      ), result)))
 
     def get_user_playlists(self) -> Playlists:
@@ -94,14 +97,29 @@ class SpotifyWrapperWithSpotipy(SpotifyWrapper):
         self.delete_all_songs_by(playlist_id)
         self.playlist_add_songs_by(playlist_id, songs.songs_ids())
 
+    def remove_specific_song_occurrences(self, playlist_id: str, duplicated_songs: DuplicatedSongs) -> None:
+        self.spotipy.playlist_remove_specific_occurrences_of_items(
+            playlist_id,
+            from_duplicated_song_to_items(duplicated_songs)
+        )
+
+    def remove_song_occurrences(self, playlist_id: str, remix_songs: RemixSongs) -> None:
+        self.spotipy.playlist_remove_all_occurrences_of_items(playlist_id, from_non_remix_songs_to_items(remix_songs))
+
     def __split_songs_list_by_chunks(self, song_ids: List[str]) -> List[List[str]]:
         return [song_ids[x:x + self.__CHUNK_SIZE] for x in range(0, len(song_ids), self.__CHUNK_SIZE)]
 
-    def remove_specific_song_occurrences(self, playlist_id: str, duplicated_songs: DuplicatedSongs) -> None:
-        self.spotipy.playlist_remove_specific_occurrences_of_items(playlist_id, to_items(duplicated_songs))
+
+def from_non_remix_songs_to_items(non_remix_songs: RemixSongs) -> List[Dict[str, str | List[int]]]:
+    items: List[Dict[str, str | List[int]]] = []
+    for non_remix_song in non_remix_songs.songs():
+        items.append(
+            {"uri": non_remix_song.spotify_id()}
+        )
+    return items
 
 
-def to_items(duplicated_songs: DuplicatedSongs) -> List[Dict[str, str | List[int]]]:
+def from_duplicated_song_to_items(duplicated_songs: DuplicatedSongs) -> List[Dict[str, str | List[int]]]:
     items: List[Dict[str, str | List[int]]] = []
     for duplicated_song in duplicated_songs.songs():
         items.append(

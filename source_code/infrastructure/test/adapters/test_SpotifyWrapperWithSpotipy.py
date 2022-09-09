@@ -114,7 +114,8 @@ def populate_fake_playlist_items_list(size: int) -> Mapping[str, object]:
                     'release_date': ''
                 },
                 "name": "someName",
-                'id': 'abc1234'
+                'id': 'abc1234',
+                'artists': [{'id': 'artist_id'}]
             },
             'owner': {
                 'id': '11172067860'
@@ -136,7 +137,8 @@ def populate_song_list(size: int) -> List[Song]:
         fake_playlist_items.append(Song(
             "someName",
             "abc1234",
-            ""
+            "",
+            ["artist_id"]
         ))
     return fake_playlist_items
 
