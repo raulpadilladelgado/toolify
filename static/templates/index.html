@@ -32,6 +32,9 @@
                         <button type="button" id='{{ playlist.get_spotify_id() }}'
                                 class="btn btn-primary mt-3 remove-duplicated">Remove duplicated songs
                         </button>
+                        <button type="button" id='{{ playlist.get_spotify_id() }}'
+                                class="btn btn-primary mt-3 remove-non-remix">Remove non remix songs
+                        </button>
                     </div>
                 </div>
             </div>
@@ -56,6 +59,7 @@
 
             http.onreadystatechange = function () {
                 if (http.readyState === 4 && http.status === 200) {
+                    window.location.replace('{{ list_playlists_url }}');
                     alert("PLAYLIST WAS ORDERED");
                 }
             }
@@ -76,7 +80,29 @@
 
             http.onreadystatechange = function () {
                 if (http.readyState === 4 && http.status === 200) {
+                    window.location.replace('{{ list_playlists_url }}');
                     alert("DUPLICATED SONGS WERE REMOVED FROM PLAYLIST");
+                }
+            }
+            http.send(params);
+        });
+    }
+
+
+    const removeNonRemixButton = document.getElementsByClassName('remove-non-remix');
+    for (let i = 0; i < removeNonRemixButton.length; i++) {
+        removeNonRemixButton[i].addEventListener('click', function () {
+            let http = new XMLHttpRequest();
+            let url = '{{remove_non_remix_songs_url}}';
+            let params = 'playlist=' + removeNonRemixButton[i].id;
+            http.open('POST', url, true);
+
+            http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+            http.onreadystatechange = function () {
+                if (http.readyState === 4 && http.status === 200) {
+                    window.location.replace('{{ list_playlists_url }}');
+                    alert("NON REMIX SONGS WERE REMOVED FROM PLAYLIST");
                 }
             }
             http.send(params);

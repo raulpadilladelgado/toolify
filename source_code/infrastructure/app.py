@@ -1,6 +1,7 @@
 import os
 
 from flask import Flask
+
 from source_code.infrastructure.main.controllers import PlaylistController, LoginController
 
 app = Flask(__name__,static_folder="../../static", template_folder="../../static/templates")
@@ -10,3 +11,4 @@ app.add_url_rule('/redirect', view_func=LoginController.redirect_page)
 app.add_url_rule('/list', view_func=PlaylistController.list_playlists)
 app.add_url_rule('/order', view_func=PlaylistController.order_playlists, methods=["POST"])
 app.add_url_rule('/remove-duplicated', view_func=PlaylistController.remove_duplicated_songs, methods=["POST"])
+app.add_url_rule('/remove-non-remix', view_func=PlaylistController.remove_non_remix_songs, methods=["POST"])

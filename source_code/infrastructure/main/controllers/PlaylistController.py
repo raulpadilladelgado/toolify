@@ -3,6 +3,7 @@ from flask import render_template, request, url_for
 
 from source_code.application.main.usecases.ListUserPlaylists import ListUserPlaylists
 from source_code.application.main.usecases.RemoveDuplicatedSongs import RemoveDuplicatedSongs
+from source_code.application.main.usecases.RemoveNonRemixSongs import RemoveNonRemixSongs
 from source_code.application.main.usecases.ReorderPlaylistByReleaseDate import ReorderPlaylistByReleaseDate
 from source_code.domain.main.valueobjects.Playlists import Playlists
 from source_code.infrastructure.main.adapters.SpotifyWrapperWithSpotipy import SpotifyWrapperWithSpotipy
@@ -12,24 +13,31 @@ from source_code.infrastructure.main.controllers.LoginController import LoginCon
 def list_playlists() -> str:
     return render_template(
         "index.html",
-        playlists=(list_user_playlist_items().playlist_items()),
+        playlists=(list_user_playlists().values()),
+        list_playlists_url=url_for('list_playlists', _external=True),
         order_playlists_url=url_for('order_playlists', _external=True),
-        remove_duplicated_songs_url=url_for('remove_duplicated_songs', _external=True)
+        remove_duplicated_songs_url=url_for('remove_duplicated_songs', _external=True),
+        remove_non_remix_songs_url=url_for('remove_non_remix_songs', _external=True)
     )
 
 
-def list_user_playlist_items() -> Playlists:
+def list_user_playlists() -> Playlists:
     return ListUserPlaylists(SpotifyWrapperWithSpotipy(get_spotify_client())).apply()
 
 
 def order_playlists():
     ReorderPlaylistByReleaseDate(SpotifyWrapperWithSpotipy(get_spotify_client()), request.form['playlist']).apply()
-    return list_playlists()
+    return "OK"
 
 
 def remove_duplicated_songs():
     RemoveDuplicatedSongs(SpotifyWrapperWithSpotipy(get_spotify_client())).apply(request.form['playlist'])
-    return list_playlists()
+    return "OK"
+
+
+def remove_non_remix_songs():
+    RemoveNonRemixSongs(SpotifyWrapperWithSpotipy(get_spotify_client())).apply(request.form['playlist'])
+    return "OK"
 
 
 def get_spotify_client():

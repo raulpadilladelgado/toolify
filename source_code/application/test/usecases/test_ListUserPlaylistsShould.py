@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import Mock
 
 from source_code.application.main.usecases.ListUserPlaylists import ListUserPlaylists
-from source_code.domain.test.fixtures.PlaylistsFixtures import playlists
+from source_code.domain.fixtures.PlaylistsFixtures import playlists
 
 FAKE_PLAYLIST_NAME = 'PLAYLIST_NAME'
 
