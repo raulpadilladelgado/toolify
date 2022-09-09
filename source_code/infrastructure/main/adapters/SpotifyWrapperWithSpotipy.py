@@ -104,19 +104,10 @@ class SpotifyWrapperWithSpotipy(SpotifyWrapper):
         )
 
     def remove_song_occurrences(self, playlist_id: str, remix_songs: RemixSongs) -> None:
-        self.spotipy.playlist_remove_all_occurrences_of_items(playlist_id, from_non_remix_songs_to_items(remix_songs))
+        self.spotipy.playlist_remove_all_occurrences_of_items(playlist_id, remix_songs.songs_ids())
 
     def __split_songs_list_by_chunks(self, song_ids: List[str]) -> List[List[str]]:
         return [song_ids[x:x + self.__CHUNK_SIZE] for x in range(0, len(song_ids), self.__CHUNK_SIZE)]
-
-
-def from_non_remix_songs_to_items(non_remix_songs: RemixSongs) -> List[Dict[str, str | List[int]]]:
-    items: List[Dict[str, str | List[int]]] = []
-    for non_remix_song in non_remix_songs.songs():
-        items.append(
-            {"uri": non_remix_song.spotify_id()}
-        )
-    return items
 
 
 def from_duplicated_song_to_items(duplicated_songs: DuplicatedSongs) -> List[Dict[str, str | List[int]]]:

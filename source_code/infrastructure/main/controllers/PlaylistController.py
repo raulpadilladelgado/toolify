@@ -1,6 +1,7 @@
 import spotipy
 from flask import render_template, request, url_for
 
+from source_code.application.main.usecases.KeepRemixSongsVersion import KeepSongsRemixVersion
 from source_code.application.main.usecases.ListUserPlaylists import ListUserPlaylists
 from source_code.application.main.usecases.RemoveDuplicatedSongs import RemoveDuplicatedSongs
 from source_code.application.main.usecases.ReorderPlaylistByReleaseDate import ReorderPlaylistByReleaseDate
@@ -13,8 +14,10 @@ def list_playlists() -> str:
     return render_template(
         "index.html",
         playlists=(list_user_playlist_items().playlist_items()),
+        list_playlists_url=url_for('list_playlists', _external=True),
         order_playlists_url=url_for('order_playlists', _external=True),
-        remove_duplicated_songs_url=url_for('remove_duplicated_songs', _external=True)
+        remove_duplicated_songs_url=url_for('remove_duplicated_songs', _external=True),
+        remove_non_remix_songs_url=url_for('remove_non_remix_songs', _external=True)
     )
 
 
@@ -29,6 +32,11 @@ def order_playlists():
 
 def remove_duplicated_songs():
     RemoveDuplicatedSongs(SpotifyWrapperWithSpotipy(get_spotify_client())).apply(request.form['playlist'])
+    return list_playlists()
+
+
+def remove_non_remix_songs():
+    KeepSongsRemixVersion(SpotifyWrapperWithSpotipy(get_spotify_client())).apply(request.form['playlist'])
     return list_playlists()
 
 

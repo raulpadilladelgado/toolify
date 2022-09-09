@@ -22,6 +22,9 @@ class RemixSongs(object):
     def songs(self) -> List[NonRemixSong]:
         return self.__songs
 
+    def songs_ids(self) -> List[str]:
+        return list([song.spotify_id() for song in self.__songs])
+
     def __eq__(self, o: object) -> bool:
         if isinstance(o, RemixSongs) and len(o.__songs) == len(self.__songs):
             return o.__songs == self.__songs
