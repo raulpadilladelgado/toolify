@@ -15,23 +15,23 @@ class DuplicatedSongs(object):
             return None
         return DuplicatedSongs(duplicated_songs)
 
-    def __init__(self, songs: List[DuplicatedSong]) -> None:
-        self.__songs = songs
+    def __init__(self, duplicated_songs: List[DuplicatedSong]) -> None:
+        self.__values = duplicated_songs
 
-    def songs(self) -> List[DuplicatedSong]:
-        return self.__songs
+    def values(self) -> List[DuplicatedSong]:
+        return self.__values
 
     def __eq__(self, o: object) -> bool:
-        if isinstance(o, DuplicatedSongs) and len(o.__songs) == len(self.__songs):
-            return o.__songs == self.__songs
+        if isinstance(o, DuplicatedSongs) and len(o.__values) == len(self.__values):
+            return o.__values == self.__values
         return False
 
 
 def find_duplicated_songs(songs: Songs) -> List[DuplicatedSong]:
-    unique_songs = filter_unique_songs(songs.songs())
+    unique_songs = filter_unique_songs(songs.values())
     duplicated_songs = []
     for unique_song in unique_songs:
-        song_occurrences = [index for index, song in enumerate(songs.songs()) if song.get_spotify_id() == unique_song.get_spotify_id()]
+        song_occurrences = [index for index, song in enumerate(songs.values()) if song.get_spotify_id() == unique_song.get_spotify_id()]
         if len(song_occurrences) > 1:
             song_occurrences.pop(0)
             duplicated_songs.append(

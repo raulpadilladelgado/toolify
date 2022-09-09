@@ -111,7 +111,7 @@ class SpotifyWrapperWithSpotipy(SpotifyWrapper):
 
     def __filter_playlists_by_user(self, playlists: Playlists) -> Playlists:
         user: str = self.spotipy.current_user()['id']
-        return Playlists(list(filter(lambda playlist: playlist.get_user_id() == user, playlists.playlist_items())))
+        return Playlists(list(filter(lambda playlist: playlist.get_user_id() == user, playlists.values())))
 
     def __split_songs_by_max_number_of_songs_by_request(self, song_ids: List[str]) -> List[List[str]]:
         return [song_ids[x:x + self.__CHUNK_SIZE] for x in range(0, len(song_ids), self.__CHUNK_SIZE)]
@@ -119,7 +119,7 @@ class SpotifyWrapperWithSpotipy(SpotifyWrapper):
 
 def from_duplicated_songs_to_items(duplicated_songs: DuplicatedSongs) -> List[Dict[str, str | List[int]]]:
     items: List[Dict[str, str | List[int]]] = []
-    for duplicated_song in duplicated_songs.songs():
+    for duplicated_song in duplicated_songs.values():
         items.append(
             {"uri": duplicated_song.spotify_id(), "positions": duplicated_song.positions()}
         )

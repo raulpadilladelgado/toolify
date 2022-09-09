@@ -16,26 +16,26 @@ class NonRemixSongs(object):
             return None
         return NonRemixSongs(remix_songs)
 
-    def __init__(self, songs: List[NonRemixSong]) -> None:
-        self.__songs = songs
+    def __init__(self, non_remix_songs: List[NonRemixSong]) -> None:
+        self.__values = non_remix_songs
 
-    def songs(self) -> List[NonRemixSong]:
-        return self.__songs
+    def values(self) -> List[NonRemixSong]:
+        return self.__values
 
     def songs_ids(self) -> List[str]:
-        return list([song.spotify_id() for song in self.__songs])
+        return list([song.spotify_id() for song in self.__values])
 
     def __eq__(self, o: object) -> bool:
-        if isinstance(o, NonRemixSongs) and len(o.__songs) == len(self.__songs):
-            return o.__songs == self.__songs
+        if isinstance(o, NonRemixSongs) and len(o.__values) == len(self.__values):
+            return o.__values == self.__values
         return False
 
 
 def find_non_remix_songs(songs: Songs) -> List[NonRemixSong]:
-    remix_songs = filter_remix_songs(songs.songs())
+    remix_songs = filter_remix_songs(songs.values())
     non_remix_songs = []
     for remix_song in remix_songs:
-        for index, song in enumerate(songs.songs()):
+        for index, song in enumerate(songs.values()):
             if re.search(song.get_name(), remix_song.get_name(), re.IGNORECASE) \
                     and song.get_name() != remix_song.get_name() \
                     and all(item in remix_song.get_artists() for item in song.get_artists()):
