@@ -55,8 +55,8 @@ class SpotifyWrapperWithSpotipy(SpotifyWrapper):
     def remove_song_occurrences(self, playlist_id: str, remix_songs: NonRemixSongs) -> None:
         self.spotipy.playlist_remove_all_occurrences_of_items(playlist_id, remix_songs.songs_ids())
 
-    def __add_songs(self, playlist_id, songs_ids):
-        return self.spotipy.playlist_add_items(playlist_id, songs_ids)
+    def __add_songs(self, playlist_id: str, songs_ids: List[str]) -> None:
+        self.spotipy.playlist_add_items(playlist_id, songs_ids)
 
     def __delete_all_songs_by(self, playlist_id: str) -> None:
         self.spotipy.playlist_replace_items(playlist_id, [])
