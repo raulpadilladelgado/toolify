@@ -4,3 +4,5 @@ toolify.iml
 toolify-env
 venv
 .env
+.spotify_caches
+.flask_session
