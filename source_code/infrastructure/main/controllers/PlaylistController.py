@@ -9,11 +9,11 @@ from source_code.infrastructure.main.controllers.LoginController import get_clie
 
 
 def list_playlists():
-    client = get_client()
+    client = get_spotipy_client()
     user_is_not_logged = client is None
     if user_is_not_logged:
         return redirect(url_for('login'))
-    playlists = ListUserPlaylists(SpotifyWrapperWithSpotipy(client)).apply()
+    playlists = list_user_playlists(client)
     return render_template(
         "index.html",
         playlists=playlists.values(),
@@ -23,6 +23,14 @@ def list_playlists():
         remove_non_remix_songs_url=url_for('remove_non_remix_songs'),
         sign_out_url=url_for('sign_out')
     )
+
+
+def get_spotipy_client():
+    return get_client()
+
+
+def list_user_playlists(client):
+    return ListUserPlaylists(SpotifyWrapperWithSpotipy(client)).apply()
 
 
 def order_playlists():

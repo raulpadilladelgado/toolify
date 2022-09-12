@@ -2,7 +2,7 @@ import os
 import uuid
 
 import spotipy
-from flask import session, request, redirect
+from flask import session, request, redirect, render_template
 
 scopes = ["playlist-modify-private",
           "playlist-read-private"]
@@ -27,7 +27,10 @@ def login():
         return redirect('/list')
     if not auth_manager.get_cached_token():
         auth_url = auth_manager.get_authorize_url()
-        return f'<h2><a href="{auth_url}">Sign in</a></h2>'
+        return render_template(
+            "not_logged.html",
+            auth_url=auth_url
+        )
     return redirect('/list')
 
 
