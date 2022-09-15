@@ -44,6 +44,6 @@ def sign_out():
 
 
 def get_client():
-    auth_manager = spotipy.oauth2.SpotifyOAuth(cache_path=session_cache_path())
+    auth_manager = spotipy.oauth2.SpotifyOAuth(scope=scopes, cache_path=session_cache_path())
     return None if not auth_manager.get_cached_token() else spotipy.Spotify(
         auth_manager=auth_manager)

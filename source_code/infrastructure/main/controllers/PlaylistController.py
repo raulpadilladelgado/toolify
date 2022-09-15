@@ -34,7 +34,7 @@ def list_user_playlists(client):
 
 
 def order_playlists():
-    client = get_client()
+    client = get_spotipy_client()
     user_is_not_logged = client is None
     if user_is_not_logged:
         return redirect(url_for('login'))
@@ -43,7 +43,7 @@ def order_playlists():
 
 
 def remove_duplicated_songs():
-    client = get_client()
+    client = get_spotipy_client()
     user_is_not_logged = client is None
     if user_is_not_logged:
         return redirect(url_for('login'))
@@ -52,7 +52,7 @@ def remove_duplicated_songs():
 
 
 def remove_non_remix_songs():
-    client = get_client()
+    client = get_spotipy_client()
     user_is_not_logged = client is None
     if user_is_not_logged:
         return redirect(url_for('login'))
