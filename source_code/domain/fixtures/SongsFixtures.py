@@ -10,7 +10,7 @@ def some_songs_with_duplicates() -> Songs:
             Song("aguacate remix", "7894", "date", ["artist_id", "artist_2_id"]),
             Song("como sea", "1234", "date", ["artist_id"]),
             Song("como sea", "1234", "date", ["artist_id"]),
-            Song("como sea", "3457", "date", ["artist_id"])
+            Song("como sea", "3457", "date", ["artist_3_id"])
         ]
     )
 

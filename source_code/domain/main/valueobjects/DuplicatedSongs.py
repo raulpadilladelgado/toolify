@@ -31,7 +31,8 @@ def find_duplicated_songs(songs: Songs) -> List[DuplicatedSong]:
     unique_songs = filter_unique_songs(songs.values())
     duplicated_songs = []
     for unique_song in unique_songs:
-        song_occurrences = [index for index, song in enumerate(songs.values()) if song.get_spotify_id() == unique_song.get_spotify_id()]
+        song_occurrences = [index for index, song in enumerate(songs.values()) if
+                            song.get_name() == unique_song.get_name() and song.get_artists() == unique_song.get_artists()]
         if len(song_occurrences) > 1:
             song_occurrences.pop(0)
             duplicated_songs.append(
