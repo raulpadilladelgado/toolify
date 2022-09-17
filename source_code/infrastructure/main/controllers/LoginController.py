@@ -5,7 +5,9 @@ import spotipy
 from flask import session, request, redirect, render_template
 
 scopes = ["playlist-modify-private",
-          "playlist-read-private"]
+          "playlist-read-private",
+          "playlist-read-collaborative",
+          "playlist-modify-public"]
 
 caches_folder = './.spotify_caches/'
 if not os.path.exists(caches_folder):
