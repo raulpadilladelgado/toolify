@@ -1,0 +1,10 @@
+Dockerfile
+.git
+.gitignore
+.env-sample
+make-venv
+Makefile
+mypy.ini
+Procfile
+README.md
+.github
