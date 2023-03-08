@@ -1,4 +1,9 @@
-from flask import render_template, request, url_for, redirect
+from __future__ import annotations
+
+import multiprocessing
+
+from flask import render_template, request, url_for, redirect, Response
+from spotipy import Spotify
 
 from source_code.application.main.usecases.ListUserPlaylists import ListUserPlaylists
 from source_code.application.main.usecases.RemoveDuplicatedSongs import RemoveDuplicatedSongs
@@ -34,27 +39,44 @@ def list_user_playlists(client):
 
 
 def order_playlists():
-    client = get_spotipy_client()
-    user_is_not_logged = client is None
-    if user_is_not_logged:
-        return redirect(url_for('login'))
-    ReorderPlaylistByReleaseDate(SpotifyWrapperWithSpotipy(client), request.form['playlist']).apply()
+    client = client_or_redirect_to_login()
+    playlist_id = request.form['playlist']
+    process = multiprocessing.Process(target=order_playlists_in_background, args=(client, playlist_id))
+    process.start()
     return "OK"
+
+
+def order_playlists_in_background(client, playlist_id):
+    ReorderPlaylistByReleaseDate(SpotifyWrapperWithSpotipy(client), playlist_id).apply()
 
 
 def remove_duplicated_songs():
-    client = get_spotipy_client()
-    user_is_not_logged = client is None
-    if user_is_not_logged:
-        return redirect(url_for('login'))
-    RemoveDuplicatedSongs(SpotifyWrapperWithSpotipy(client)).apply(request.form['playlist'])
+    client = client_or_redirect_to_login()
+    playlist_id = request.form['playlist']
+    process = multiprocessing.Process(target=remove_duplicated_songs_in_background, args=(client, playlist_id))
+    process.start()
     return "OK"
+
+
+def remove_duplicated_songs_in_background(client, playlist_id):
+    RemoveDuplicatedSongs(SpotifyWrapperWithSpotipy(client)).apply(playlist_id)
 
 
 def remove_non_remix_songs():
-    client = get_spotipy_client()
+    client = client_or_redirect_to_login()
+    playlist_id = request.form['playlist']
+    process = multiprocessing.Process(target=remove_non_remix_songs_in_background, args=(client, playlist_id))
+    process.start()
+    return "OK"
+
+
+def remove_non_remix_songs_in_background(client, playlist_id):
+    RemoveNonRemixSongs(SpotifyWrapperWithSpotipy(client)).apply(playlist_id)
+
+
+def client_or_redirect_to_login() -> Spotify | Response:
+    client: Spotify = get_spotipy_client()
     user_is_not_logged = client is None
     if user_is_not_logged:
         return redirect(url_for('login'))
-    RemoveNonRemixSongs(SpotifyWrapperWithSpotipy(client)).apply(request.form['playlist'])
-    return "OK"
+    return client
