@@ -1,36 +1,31 @@
-# Welcome to
+# Welcome to Toolify
 ![toolify.png](static/images/toolify.png)
 
-Toolify it's an web application written at python
-using the web framework flask and the spotify api wrapper 
-library spotipy.
+Toolify is a web application written in Python,
+using the Flask web framework and the Spotify API wrapper library, Spotipy.
 
-Using it, you can manage your playlist with several features
-that you can't get from the official spotify client
+With Toolify, you can manage your playlists with several features
+that you can't get from the official Spotify client.
+
 # Setup local environment
-1. Install dependencies
+1. Install dependencies:
 ```shell
-make install
+task install
 ```
-2. Fill .env file with the required environment variables:
-- TOOLIFY_SECRET_KEY
-- SPOTIFY_REDIRECT_URI
-- SPOTIFY_CLIENT_SECRET
-- SPOTIFY_CLIENT_ID
-- FLASK_APP (you must keep the provided value)
-3. Now, you can launch the server with:
+2. Copy .env-sample to .env and fill it with the required environment variables.
+3. Now, you can launch the application by executing:
 ```shell
-make run
+task start
 ```
+4. Finally, you can stop the application by executing:
+```shell
+task stop
+```
+> 💡 All available commands can be list executing `task`
 
 # Other tips for development
-To launch the test suite you must be placed at the root directory of the project and execute:
+You can launch the test suite by executing:
 ```shell
-make test
-```
-
-To launch gunicorn (our WSGI HTTP server), you must be placed at the root directory of the project and execute:
-```shell
-make run-with-gunicorn
+task test
 ```
 
