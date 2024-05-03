@@ -23,7 +23,7 @@ def login():
         session['uuid'] = str(uuid.uuid4())
     auth_manager = spotipy.oauth2.SpotifyOAuth(scope=scopes,
                                                cache_path=session_cache_path(),
-                                               show_dialog=True)
+                                               show_dialog=False)
     if request.args.get("code"):
         auth_manager.get_access_token(request.args.get("code"))
         return redirect('/list')
