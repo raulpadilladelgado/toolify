@@ -100,14 +100,17 @@ class SpotifyWrapperWithSpotipy(SpotifyWrapper):
                               playlist_item['id'],
                               playlist_item['owner']['id'],
                               playlist_item['description'],
-                              playlist_item['images'][0]['url'] if playlist_item[
-                                  'images'] else url_for('static', filename='images/spotify-icon-removebg-preview.png'),
+                              self.__playlist_image_or_default_image(playlist_item),
                               playlist_item['tracks']['total']
-                              ),
-                     playlist_items
+                              ) if playlist_item else None,
+                     filter(lambda item: item is not None, playlist_items)
                      )
                  )
         )
+
+    @staticmethod
+    def __playlist_image_or_default_image(playlist_item):
+        return playlist_item['images'][0]['url'] if playlist_item['images'] else url_for('static', filename='images/spotify-icon-removebg-preview.png')
 
     def __filter_playlists_by_user(self, playlists: Playlists) -> Playlists:
         user: str = self.spotipy.current_user()['id']
