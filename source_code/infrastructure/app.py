@@ -17,3 +17,4 @@ app.add_url_rule('/remove-non-remix', view_func=PlaylistController.remove_non_re
 app.add_url_rule('/sign_out', view_func=LoginController.sign_out)
 app.add_url_rule('/', view_func=LoginController.login)
 app.add_url_rule('/tokens', view_func=LoginController.get_auth_tokens)
+app.add_url_rule('/async-order', view_func=PlaylistController.sync_playlists_with_auth_token, methods=["POST"])

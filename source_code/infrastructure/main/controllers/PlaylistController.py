@@ -3,7 +3,7 @@ from __future__ import annotations
 import multiprocessing
 
 from flask import render_template, request, url_for, redirect, Response
-from spotipy import Spotify
+from spotipy import Spotify, SpotifyOAuth
 
 from source_code.application.main.usecases.ListUserPlaylists import ListUserPlaylists
 from source_code.application.main.usecases.RemoveDuplicatedSongs import RemoveDuplicatedSongs
@@ -38,8 +38,8 @@ def list_user_playlists(client):
     return ListUserPlaylists(SpotifyWrapperWithSpotipy(client)).apply()
 
 
-def order_playlists():
-    client = client_or_redirect_to_login()
+def order_playlists(build_client = lambda: client_or_redirect_to_login()):
+    client = build_client()
     playlist_id = request.form['playlist']
     process = multiprocessing.Process(target=order_playlists_in_background, args=(client, playlist_id))
     process.start()
@@ -80,3 +80,14 @@ def client_or_redirect_to_login() -> Spotify | Response:
     if user_is_not_logged:
         return redirect(url_for('login'))
     return client
+
+def sync_playlists_with_auth_token():
+    # Crear un objeto SpotifyOAuth y refrescar el token
+    refresh_token = request.form['refresh_token']
+    sp_oauth = SpotifyOAuth()
+
+    # Manualmente refrescar el access token
+    new_token_info = sp_oauth.refresh_access_token(refresh_token)
+    new_access_token = new_token_info['access_token']
+
+    order_playlists(lambda: Spotify(auth=new_access_token))
