@@ -69,6 +69,8 @@ def __read_tokens_from_cache_file() -> any:
 
 
 def get_client():
+    if not session.get('uuid'):
+        return None
     auth_manager = spotipy.oauth2.SpotifyOAuth(scope=scopes, cache_path=__session_cache_path())
     return None if not auth_manager.get_cached_token() else spotipy.Spotify(
         auth_manager=auth_manager)
