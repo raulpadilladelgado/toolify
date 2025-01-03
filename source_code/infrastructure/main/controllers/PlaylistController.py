@@ -81,13 +81,9 @@ def client_or_redirect_to_login() -> Spotify | Response:
         return redirect(url_for('login'))
     return client
 
-def sync_playlists_with_auth_token():
-    # Crear un objeto SpotifyOAuth y refrescar el token
+def order_playlist_with_auth_token():
     refresh_token = request.form['refresh_token']
     sp_oauth = SpotifyOAuth()
-
-    # Manualmente refrescar el access token
     new_token_info = sp_oauth.refresh_access_token(refresh_token)
     new_access_token = new_token_info['access_token']
-
-    order_playlists(lambda: Spotify(auth=new_access_token))
+    return order_playlists(lambda: Spotify(auth=new_access_token))

@@ -49,18 +49,18 @@
 
 <script>
     const reorderButton = document.getElementsByClassName('reorder');
-    for (let i = 0; i < reorderButton.length; i++) {
-        reorderButton[i].addEventListener('click', function () {
+    for (const element of reorderButton) {
+        element.addEventListener('click', function () {
             let http = new XMLHttpRequest();
             let url = '{{order_playlists_url}}';
-            let params = 'playlist=' + reorderButton[i].id;
+            let params = 'playlist=' + element.id;
             http.open('POST', url, true);
 
             http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 
             http.onreadystatechange = function () {
                 if (http.readyState === 4 && http.status === 200) {
-                    //window.location.replace('{{ list_playlists_url }}');
+                    window.location.replace('{{ list_playlists_url }}');
                     alert("PLAYLIST WAS ORDERED");
                 }
             }
@@ -70,11 +70,11 @@
 
 
     const removeDuplicatedButton = document.getElementsByClassName('remove-duplicated');
-    for (let i = 0; i < removeDuplicatedButton.length; i++) {
-        removeDuplicatedButton[i].addEventListener('click', function () {
+    for (const element of removeDuplicatedButton) {
+        element.addEventListener('click', function () {
             let http = new XMLHttpRequest();
             let url = '{{remove_duplicated_songs_url}}';
-            let params = 'playlist=' + removeDuplicatedButton[i].id;
+            let params = 'playlist=' + element.id;
             http.open('POST', url, true);
 
             http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -91,11 +91,11 @@
 
 
     const removeNonRemixButton = document.getElementsByClassName('remove-non-remix');
-    for (let i = 0; i < removeNonRemixButton.length; i++) {
-        removeNonRemixButton[i].addEventListener('click', function () {
+    for (const element of removeNonRemixButton) {
+        element.addEventListener('click', function () {
             let http = new XMLHttpRequest();
             let url = '{{remove_non_remix_songs_url}}';
-            let params = 'playlist=' + removeNonRemixButton[i].id;
+            let params = 'playlist=' + element.id;
             http.open('POST', url, true);
 
             http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
