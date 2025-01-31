@@ -10,8 +10,8 @@ from source_code.domain.main.valueobjects.Songs import Songs
 
 class NonRemixSongs(object):
     @classmethod
-    def of(cls, songs: Songs) -> Optional[NonRemixSongs]:
-        remix_songs = find_non_remix_songs(songs)
+    def of(cls, songs: Songs, keywords: List[str]) -> Optional[NonRemixSongs]:
+        remix_songs = find_non_remix_songs(songs, keywords)
         if remix_songs is None:
             return None
         return NonRemixSongs(remix_songs)
@@ -31,8 +31,8 @@ class NonRemixSongs(object):
         return False
 
 
-def find_non_remix_songs(songs: Songs) -> List[NonRemixSong]:
-    remix_songs = filter_remix_songs(songs.values())
+def find_non_remix_songs(songs: Songs, keywords: List[str]) -> List[NonRemixSong]:
+    remix_songs = filter_remix_songs(songs.values(), keywords)
     non_remix_songs = []
     for remix_song in remix_songs:
         for index, song in enumerate(songs.values()):
@@ -45,5 +45,5 @@ def find_non_remix_songs(songs: Songs) -> List[NonRemixSong]:
     return non_remix_songs
 
 
-def filter_remix_songs(songs: List[Song]) -> List[Song]:
-    return list(filter(lambda song: re.search("remix", song.get_name(), re.IGNORECASE), songs))
+def filter_remix_songs(songs: List[Song], keywords: List[str]) -> List[Song]:
+    return list(filter(lambda song: any(re.search(keyword, song.get_name(), re.IGNORECASE) for keyword in keywords), songs))

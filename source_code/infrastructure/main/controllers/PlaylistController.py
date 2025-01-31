@@ -11,6 +11,7 @@ from source_code.application.main.usecases.RemoveNonRemixSongs import RemoveNonR
 from source_code.application.main.usecases.ReorderPlaylistByReleaseDate import ReorderPlaylistByReleaseDate
 from source_code.infrastructure.main.adapters.SpotifyWrapperWithSpotipy import SpotifyWrapperWithSpotipy
 from source_code.infrastructure.main.controllers.LoginController import get_client
+from source_code.infrastructure.main.provider.EnvironmentKeywordsProvider import EnvironmentKeywordsProvider
 
 
 def list_playlists():
@@ -71,7 +72,7 @@ def remove_non_remix_songs():
 
 
 def remove_non_remix_songs_in_background(client, playlist_id):
-    RemoveNonRemixSongs(SpotifyWrapperWithSpotipy(client)).apply(playlist_id)
+    RemoveNonRemixSongs(SpotifyWrapperWithSpotipy(client), EnvironmentKeywordsProvider()).apply(playlist_id)
 
 
 def client_or_redirect_to_login() -> Spotify | Response:
