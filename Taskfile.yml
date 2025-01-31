@@ -29,7 +29,7 @@ tasks:
   venv:
     internal: true
     cmds:
-      - cmd: powershell ./venv/Scripts/activate
+      - cmd: powershell ./.venv/Scripts/activate.bat
         platforms: [ windows ]
       - cmd: ./venv/Scripts/activate
         platforms: [ darwin, linux ]

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import List, Dict
+from typing import List, Dict, Any
 
 from flask import url_for
 from spotipy import Spotify
@@ -12,6 +12,7 @@ from source_code.domain.main.valueobjects.Playlist import Playlist
 from source_code.domain.main.valueobjects.Playlists import Playlists
 from source_code.domain.main.valueobjects.Song import Song
 from source_code.domain.main.valueobjects.Songs import Songs
+from source_code.infrastructure.main.dto.PlaylistDto import PlaylistDto
 
 SONGS_ALLOWED_BY_REQUEST = 100
 
@@ -91,26 +92,22 @@ class SpotifyWrapperWithSpotipy(SpotifyWrapper):
                                      ), result)))
 
     def __get_playlists_from_items(self) -> Playlists:
-        playlist_items = self.spotipy.current_user_playlists()['items']
+        playlist_items: List[PlaylistDto] = list(
+            map(lambda playlist_item: PlaylistDto(playlist_item), self.spotipy.current_user_playlists()['items']))
         if len(playlist_items) <= 0:
             return Playlists([])
+        filtered_items = filter(lambda item: item is not None, playlist_items)
         return Playlists(
             list(map(lambda playlist_item:
-                     Playlist(playlist_item['name'],
-                              playlist_item['id'],
-                              playlist_item['owner']['id'],
-                              playlist_item['description'],
-                              self.__playlist_image_or_default_image(playlist_item),
-                              playlist_item['tracks']['total']
-                              ) if playlist_item else None,
-                     filter(lambda item: item is not None, playlist_items)
-                     )
+                     Playlist(playlist_item.name,
+                              playlist_item.id,
+                              playlist_item.owner_id,
+                              playlist_item.description,
+                              playlist_item.image_url,
+                              playlist_item.total_tracks
+                              ), filtered_items)
                  )
         )
-
-    @staticmethod
-    def __playlist_image_or_default_image(playlist_item):
-        return playlist_item['images'][0]['url'] if playlist_item['images'] else url_for('static', filename='images/spotify-icon-removebg-preview.png')
 
     def __filter_playlists_by_user(self, playlists: Playlists) -> Playlists:
         user: str = self.spotipy.current_user()['id']
