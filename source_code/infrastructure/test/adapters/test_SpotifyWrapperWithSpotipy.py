@@ -111,7 +111,8 @@ def populate_fake_playlist_items_list(size: int) -> Mapping[str, object]:
         fake_playlist_items.append({
             'track': {
                 'album': {
-                    'release_date': ''
+                    'release_date': '',
+                    'album_type': 'single',
                 },
                 "name": "someName",
                 'id': 'abc1234',

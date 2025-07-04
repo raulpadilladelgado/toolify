@@ -30,15 +30,24 @@ class DuplicatedSongs(object):
 def find_duplicated_songs(songs: Songs) -> List[DuplicatedSong]:
     unique_songs = filter_unique_songs(songs.values())
     duplicated_songs = []
+    all_songs = songs.values()
     for unique_song in unique_songs:
-        song_occurrences = [index for index, song in enumerate(songs.values()) if
-                            song.get_name() == unique_song.get_name() and song.get_artists() == unique_song.get_artists()]
+        song_occurrences = [index for index, song in enumerate(all_songs)
+                            if song.get_name() == unique_song.get_name() and song.get_artists() == unique_song.get_artists()]
         if len(song_occurrences) > 1:
-            song_occurrences.pop(0)
-            duplicated_songs.append(
-                DuplicatedSong(unique_song.get_name(), unique_song.get_spotify_id(), unique_song.get_release_date(),
-                               song_occurrences)
-            )
+            # Identificar todos los indices de album y no-album
+            album_indices = set(idx for idx in song_occurrences if all_songs[idx].get_album_type() == "album")
+            non_album_indices = set(idx for idx in song_occurrences if all_songs[idx].get_album_type() != "album")
+            if album_indices:
+                duplicate_indices = sorted(non_album_indices)
+            else:
+                # Si no hay album, los duplicados son todos menos el primero
+                duplicate_indices = sorted(song_occurrences[1:])
+            if duplicate_indices:
+                song = all_songs[duplicate_indices[0]]
+                duplicated_songs.append(
+                    DuplicatedSong(song.get_name(), song.get_spotify_id(), song.get_release_date(), duplicate_indices)
+                )
     return duplicated_songs
 
 
