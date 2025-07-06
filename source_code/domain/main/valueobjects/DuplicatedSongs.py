@@ -28,21 +28,52 @@ class DuplicatedSongs(object):
 
 
 def find_duplicated_songs(songs: Songs) -> List[DuplicatedSong]:
-    unique_songs = filter_unique_songs(songs.values())
-    duplicated_songs = []
-    for unique_song in unique_songs:
-        song_occurrences = [index for index, song in enumerate(songs.values()) if
-                            song.get_name() == unique_song.get_name() and song.get_artists() == unique_song.get_artists()]
-        if len(song_occurrences) > 1:
-            song_occurrences.pop(0)
-            duplicated_songs.append(
-                DuplicatedSong(unique_song.get_name(), unique_song.get_spotify_id(), unique_song.get_release_date(),
-                               song_occurrences)
-            )
-    return duplicated_songs
+    unique_songs = __filter_unique_songs(songs.values())
+    all_songs = songs.values()
+    return [
+        duplicated_song for unique_song in unique_songs
+        if (duplicated_song := __get_duplicated_song_from(unique_song, all_songs)) is not None
+    ]
 
 
-def filter_unique_songs(songs: List[Song]) -> List[Song]:
+def __get_duplicated_song_from(
+        unique_song: Song,
+        all_songs: List[Song]
+) -> Optional[DuplicatedSong]:
+    occurrences = __find_song_occurrences(all_songs, unique_song)
+    if len(occurrences) <= 1:
+        return None
+    album_indices = __get_album_indices(all_songs, occurrences)
+    single_indices = __get_single_indices(all_songs, occurrences)
+    if album_indices:
+        duplicate_indices = sorted(single_indices)
+    else:
+        duplicate_indices = sorted(occurrences[1:])
+    if not duplicate_indices:
+        return None
+    song = all_songs[duplicate_indices[0]]
+    return DuplicatedSong(
+        song.get_name(),
+        song.get_spotify_id(),
+        song.get_release_date(),
+        duplicate_indices
+    )
+
+
+def __get_single_indices(all_songs: List[Song], occurrences: List[int]) -> set[int]:
+    return {idx for idx in occurrences if all_songs[idx].get_album_type() != "album"}
+
+
+def __get_album_indices(all_songs: List[Song], occurrences: List[int]) -> set[int]:
+    return {idx for idx in occurrences if all_songs[idx].get_album_type() == "album"}
+
+
+def __find_song_occurrences(all_songs: List[Song], unique_song: Song) -> List[int]:
+    return [index for index, song in enumerate(all_songs)
+            if song.get_name() == unique_song.get_name() and song.get_artists() == unique_song.get_artists()]
+
+
+def __filter_unique_songs(songs: List[Song]) -> List[Song]:
     unique_songs: List[Song] = []
     for song in songs:
         if not unique_songs.__contains__(song):

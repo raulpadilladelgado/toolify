@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import List, Dict
+from typing import Any, List, Dict
 
 from flask import url_for
 from spotipy import Spotify
@@ -25,9 +25,10 @@ class SpotifyWrapperWithSpotipy(SpotifyWrapper):
 
     def playlist_add_songs_by(self, playlist_id: str, songs_ids: List[str]) -> None:
         number_of_songs_in_playlist = len(songs_ids)
-        self.__add_songs_by_chunks_of_max_songs_allowed_by_request(playlist_id, songs_ids) \
-            if number_of_songs_in_playlist > SONGS_ALLOWED_BY_REQUEST \
-            else self.__add_songs(playlist_id, songs_ids)
+        if number_of_songs_in_playlist > SONGS_ALLOWED_BY_REQUEST:
+            self.__add_songs_by_chunks_of_max_songs_allowed_by_request(playlist_id, songs_ids)
+        else:
+            self.__add_songs(playlist_id, songs_ids)
 
     def get_count_of_songs_by(self, playlist_id: str) -> int:
         return int(self.spotipy.playlist(playlist_id)['tracks']['total'])
@@ -72,7 +73,8 @@ class SpotifyWrapperWithSpotipy(SpotifyWrapper):
                                          x['track']['name'],
                                          x['track']['id'],
                                          x['track']['album']['release_date'],
-                                         list([artist['id'] for artist in x['track']['artists']])
+                                         list([artist['id'] for artist in x['track']['artists']]),
+                                         x['track']['album']['album_type']
                                      ), self.spotipy.playlist_items(playlist_id)['items'])))
 
     def __get_songs_by_chunks_of_max_songs_allowed_by_request(self, number_of_songs_in_playlist: int,
@@ -87,7 +89,8 @@ class SpotifyWrapperWithSpotipy(SpotifyWrapper):
                                          x['track']['name'],
                                          x['track']['id'],
                                          x['track']['album']['release_date'],
-                                         list([artist['id'] for artist in x['track']['artists']])
+                                         list([artist['id'] for artist in x['track']['artists']]),
+                                         x['track']['album']['album_type']
                                      ), result)))
 
     def __get_playlists_from_items(self) -> Playlists:
@@ -102,14 +105,14 @@ class SpotifyWrapperWithSpotipy(SpotifyWrapper):
                               playlist_item['description'],
                               self.__playlist_image_or_default_image(playlist_item),
                               playlist_item['tracks']['total']
-                              ) if playlist_item else None,
+                              ),
                      filter(lambda item: item is not None, playlist_items)
                      )
                  )
         )
 
     @staticmethod
-    def __playlist_image_or_default_image(playlist_item):
+    def __playlist_image_or_default_image(playlist_item: Any) -> str:
         return playlist_item['images'][0]['url'] if playlist_item['images'] else url_for('static', filename='images/spotify-icon-removebg-preview.png')
 
     def __filter_playlists_by_user(self, playlists: Playlists) -> Playlists:

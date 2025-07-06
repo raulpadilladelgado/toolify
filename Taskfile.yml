@@ -5,11 +5,10 @@ tasks:
   test:
     desc: "🧪 Run tests"
     cmds:
-      - task: venv
       - echo "Running test suite..."
-      - python -m unittest
+      - .venv/bin/python -m unittest
       - echo "Analyzing code with mypy..."
-      - mypy source_code/ --strict
+      - .venv/bin/mypy source_code/ --strict
   start:
     desc: "🚀 Run the application"
     dir: docker
@@ -23,16 +22,8 @@ tasks:
   install:
     desc: "🫴 Install requirements"
     cmds:
-      - task: venv
-      - pip install -r requirements.txt
+      - .venv/bin/pip install -r requirements.txt
       - echo "Requirements installed"
-  venv:
-    internal: true
-    cmds:
-      - cmd: powershell ./venv/Scripts/activate
-        platforms: [ windows ]
-      - cmd: ./venv/Scripts/activate
-        platforms: [ darwin, linux ]
   default:
     cmds:
       - task -l --sort none
