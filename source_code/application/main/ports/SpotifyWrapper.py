@@ -20,7 +20,7 @@ class SpotifyWrapper:
         raise NotImplementedError("This method should be implemented by subclasses.")
 
     def replace_songs_by(self, playlist_id: str, songs: Songs) -> None:
-        ...
+        raise NotImplementedError("This method should be implemented by subclasses.")
 
     def remove_specific_song_occurrences(self, playlist_id: str, duplicated_songs: DuplicatedSongs) -> None:
         raise NotImplementedError("This method should be implemented by subclasses.")
